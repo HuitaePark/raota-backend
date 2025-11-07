@@ -1,0 +1,10 @@
+spring:
+  flyway:
+    enabled: true
+    encoding: UTF-8
+  application:
+    name: raota
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
