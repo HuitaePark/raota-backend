@@ -8,5 +8,4 @@ public class RaotaApplication {
     public static void main(String[] args) {
         SpringApplication.run(RaotaApplication.class, args);
     }
-
 }
