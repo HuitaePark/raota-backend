@@ -46,7 +46,7 @@ class RamenShopInfoControllerTest {
         Long shopId = 1L;
         Long userId = 123L;
         VisitCountingResponse visitCountingResponse = new VisitCountingResponse(1L,123L,1251,"방문이 인증되었습니다.");
-        given(ramenShopInfoService.addViisitiCount(shopId,userId)).willReturn(visitCountingResponse);
+        given(ramenShopInfoService.addVisitCount(shopId,userId)).willReturn(visitCountingResponse);
 
         mockMvc.perform(post("/ramen-shops/{shopId}/visit", shopId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -67,6 +67,26 @@ class RamenShopInfoControllerTest {
         given(ramenShopInfoService.getVotingStatus(shopId)).willReturn(response);
 
         mockMvc.perform(get("/ramen-shops/{shopId}/votes", shopId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("SUCCESS"))
+                .andExpect(jsonPath("$.data.total_votes").value(620))
+                // 배열 값 확인
+                .andExpect(jsonPath("$.data.vote_results[0].menu_id").value(1))
+                .andExpect(jsonPath("$.data.vote_results[0].menu_name").value("시오라멘"))
+                .andExpect(jsonPath("$.data.vote_results[0].vote_count").value(410))
+                .andExpect(jsonPath("$.data.vote_results[0].percentage").value(66.1));
+    }
+
+    @DisplayName("투표 후 바뀐 투표 현황을 확인한다.")
+    @Test
+    void view_voting_status_after_vote() throws Exception {
+        Long shopId = 1L;
+        Long menuId = 1L;
+        VotingStatusResponse response = new VotingStatusResponse(620, List.of(new VoteResultsDto(1L,"시오라멘",410,66.1)));
+        given(ramenShopInfoService.voteTheMenu(shopId,menuId)).willReturn(response);
+
+        mockMvc.perform(post("/ramen-shops/{shopId}/votes/{menuId}", shopId,menuId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("SUCCESS"))

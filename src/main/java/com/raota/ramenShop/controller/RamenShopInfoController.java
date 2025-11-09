@@ -26,13 +26,21 @@ public class RamenShopInfoController {
             @PathVariable Long shopId,
             @RequestBody VisitCertificationRequest request
     ) {
-        VisitCountingResponse response = ramenShopInfoService.addViisitiCount(shopId, request.getUserId());
+        VisitCountingResponse response = ramenShopInfoService.addVisitCount(shopId, request.getUserId());
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
     @GetMapping("/{shopId}/votes")
     public ResponseEntity<ApiResponse<VotingStatusResponse>> getVoteStatus(@PathVariable Long shopId) {
         VotingStatusResponse response = ramenShopInfoService.getVotingStatus(shopId);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @PostMapping("/{shopId}/votes/{menuId}")
+    public ResponseEntity<ApiResponse<VotingStatusResponse>> getVoteStatus(
+            @PathVariable Long shopId,
+            @PathVariable Long menuId) {
+        VotingStatusResponse response = ramenShopInfoService.voteTheMenu(shopId,menuId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }
