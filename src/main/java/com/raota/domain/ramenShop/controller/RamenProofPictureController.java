@@ -1,8 +1,8 @@
-package com.raota.ramenShop.controller;
+package com.raota.domain.ramenShop.controller;
 
 import com.raota.global.common.ApiResponse;
-import com.raota.ramenShop.controller.response.ProofPictureInfoResponse;
-import com.raota.ramenShop.service.RamenProofPictureService;
+import com.raota.domain.ramenShop.controller.response.ProofPictureInfoResponse;
+import com.raota.domain.ramenShop.service.RamenProofPictureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

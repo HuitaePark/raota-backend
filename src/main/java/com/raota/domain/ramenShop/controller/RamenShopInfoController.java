@@ -1,13 +1,13 @@
-package com.raota.ramenShop.controller;
+package com.raota.domain.ramenShop.controller;
 
 import com.raota.global.common.ApiResponse;
-import com.raota.ramenShop.controller.request.VisitCertificationRequest;
-import com.raota.ramenShop.controller.response.RamenShopBasicInfoResponse;
-import com.raota.ramenShop.controller.response.VisitCountingResponse;
-import com.raota.ramenShop.controller.response.VotingStatusResponse;
-import com.raota.ramenShop.controller.response.WaitingSpotResponse;
-import com.raota.ramenShop.dto.StoreSummaryResponse;
-import com.raota.ramenShop.service.RamenShopInfoService;
+import com.raota.domain.ramenShop.controller.request.VisitCertificationRequest;
+import com.raota.domain.ramenShop.controller.response.RamenShopBasicInfoResponse;
+import com.raota.domain.ramenShop.controller.response.VisitCountingResponse;
+import com.raota.domain.ramenShop.controller.response.VotingStatusResponse;
+import com.raota.domain.ramenShop.controller.response.WaitingSpotResponse;
+import com.raota.domain.ramenShop.dto.StoreSummaryResponse;
+import com.raota.domain.ramenShop.service.RamenShopInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

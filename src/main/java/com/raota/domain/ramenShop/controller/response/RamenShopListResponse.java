@@ -1,6 +1,6 @@
-package com.raota.ramenShop.controller.response;
+package com.raota.domain.ramenShop.controller.response;
 
-import com.raota.ramenShop.dto.StoreSummaryResponse;
+import com.raota.domain.ramenShop.dto.StoreSummaryResponse;
 import java.util.List;
 import lombok.Builder;
 

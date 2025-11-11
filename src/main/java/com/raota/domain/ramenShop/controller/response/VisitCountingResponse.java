@@ -1,4 +1,4 @@
-package com.raota.ramenShop.controller.response;
+package com.raota.domain.ramenShop.controller.response;
 
 public record VisitCountingResponse(
         Long restaurant_id,

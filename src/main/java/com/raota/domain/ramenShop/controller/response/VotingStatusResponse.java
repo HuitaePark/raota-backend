@@ -1,6 +1,6 @@
-package com.raota.ramenShop.controller.response;
+package com.raota.domain.ramenShop.controller.response;
 
-import com.raota.ramenShop.dto.VoteResultsDto;
+import com.raota.domain.ramenShop.dto.VoteResultsDto;
 import java.util.List;
 
 public record VotingStatusResponse (

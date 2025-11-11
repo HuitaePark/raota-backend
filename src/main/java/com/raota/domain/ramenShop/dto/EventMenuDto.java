@@ -1,4 +1,4 @@
-package com.raota.ramenShop.dto;
+package com.raota.domain.ramenShop.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

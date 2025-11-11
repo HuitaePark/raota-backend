@@ -8,9 +8,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.raota.ramenShop.controller.RamenProofPictureController;
-import com.raota.ramenShop.controller.response.ProofPictureInfoResponse;
-import com.raota.ramenShop.service.RamenProofPictureService;
+import com.raota.domain.ramenShop.controller.RamenProofPictureController;
+import com.raota.domain.ramenShop.controller.response.ProofPictureInfoResponse;
+import com.raota.domain.ramenShop.service.RamenProofPictureService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

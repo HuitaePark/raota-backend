@@ -1,10 +1,10 @@
-package com.raota.ramenShop.service;
+package com.raota.domain.ramenShop.service;
 
-import com.raota.ramenShop.controller.response.RamenShopBasicInfoResponse;
-import com.raota.ramenShop.controller.response.VisitCountingResponse;
-import com.raota.ramenShop.controller.response.VotingStatusResponse;
-import com.raota.ramenShop.controller.response.WaitingSpotResponse;
-import com.raota.ramenShop.dto.StoreSummaryResponse;
+import com.raota.domain.ramenShop.controller.response.RamenShopBasicInfoResponse;
+import com.raota.domain.ramenShop.controller.response.VisitCountingResponse;
+import com.raota.domain.ramenShop.controller.response.VotingStatusResponse;
+import com.raota.domain.ramenShop.controller.response.WaitingSpotResponse;
+import com.raota.domain.ramenShop.dto.StoreSummaryResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

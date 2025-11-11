@@ -1,9 +1,9 @@
-package com.raota.ramenShop.controller.response;
+package com.raota.domain.ramenShop.controller.response;
 
-import com.raota.ramenShop.dto.BusinessHoursDto;
-import com.raota.ramenShop.dto.EventMenuDto;
-import com.raota.ramenShop.dto.NormalMenuDto;
-import com.raota.ramenShop.dto.StatDto;
+import com.raota.domain.ramenShop.dto.BusinessHoursDto;
+import com.raota.domain.ramenShop.dto.EventMenuDto;
+import com.raota.domain.ramenShop.dto.NormalMenuDto;
+import com.raota.domain.ramenShop.dto.StatDto;
 import java.util.List;
 import lombok.Builder;
 
