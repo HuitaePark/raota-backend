@@ -1,11 +1,14 @@
 package com.raota.domain.user.controller;
 
+import com.raota.domain.user.controller.request.UpdateProfileRequest;
 import com.raota.domain.user.controller.response.MyProfileResponse;
 import com.raota.domain.user.service.UserService;
 import com.raota.global.common.ApiResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,5 +21,13 @@ public class UserController {
     @GetMapping("/me/profile")
     public ResponseEntity<ApiResponse<MyProfileResponse>> getUserProfile(){
         return ResponseEntity.ok(ApiResponse.success(userService.getMyProfile()));
+    }
+
+    @PatchMapping("/me/profile")
+    public ResponseEntity<ApiResponse<MyProfileResponse>> updateMyProfile(
+            @RequestBody UpdateProfileRequest request
+    ) {
+        MyProfileResponse updated = userService.updateMyProfile(request);
+        return ResponseEntity.ok(ApiResponse.success(updated));
     }
 }

@@ -1,7 +1,10 @@
 package com.raota.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -74,5 +77,37 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.data.stats.total_visit_count").value(3))
                 .andExpect(jsonPath("$.data.stats.total_photo_count").value(4))
                 .andExpect(jsonPath("$.data.stats.total_bookmark_count").value(2));
+    }
+
+    @DisplayName("프로필을 수정하면 변경된 프로필 정보를 반환한다.")
+    @Test
+    void update_my_profile() throws Exception {
+
+        var stats = new UserStatsDto(12, 3, 4, 2);
+
+        var updated = new MyProfileResponse(
+                201L,
+                "새로운닉네임",
+                "https://cdn.menschelin.com/images/user/201/new_profile.jpg",
+                stats
+        );
+
+        given(userService.updateMyProfile(any())).willReturn(updated);
+
+        mockMvc.perform(patch("/users/me/profile")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "nickname": "새로운닉네임",
+                                  "profile_image_url": "https://cdn.menschelin.com/images/user/201/new_profile.jpg"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("SUCCESS"))
+                .andExpect(jsonPath("$.data.user_id").value(201))
+                .andExpect(jsonPath("$.data.nickname").value("새로운닉네임"))
+                .andExpect(jsonPath("$.data.profile_image_url").value(
+                        "https://cdn.menschelin.com/images/user/201/new_profile.jpg"))
+                .andExpect(jsonPath("$.data.stats.visited_restaurant_count").value(12));
     }
 }
