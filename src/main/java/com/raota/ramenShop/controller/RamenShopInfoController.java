@@ -4,6 +4,7 @@ import com.raota.global.common.ApiResponse;
 import com.raota.ramenShop.controller.request.VisitCertificationRequest;
 import com.raota.ramenShop.controller.response.VisitCountingResponse;
 import com.raota.ramenShop.controller.response.VotingStatusResponse;
+import com.raota.ramenShop.controller.response.WaitingSpotResponse;
 import com.raota.ramenShop.service.RamenShopInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,12 @@ public class RamenShopInfoController {
             @PathVariable Long shopId,
             @PathVariable Long menuId) {
         VotingStatusResponse response = ramenShopInfoService.voteTheMenu(shopId,menuId);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @GetMapping("/{shopId}/nearby")
+    public ResponseEntity<ApiResponse<WaitingSpotResponse>> getNearByPlace(@PathVariable Long shopId) {
+        WaitingSpotResponse response = ramenShopInfoService.getWaitingSpot(shopId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }
