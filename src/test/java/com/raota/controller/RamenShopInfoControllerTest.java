@@ -16,6 +16,7 @@ import com.raota.ramenShop.dto.BusinessHoursDto;
 import com.raota.ramenShop.dto.EventMenuDto;
 import com.raota.ramenShop.dto.NormalMenuDto;
 import com.raota.ramenShop.dto.StatDto;
+import com.raota.ramenShop.dto.StoreSummaryResponse;
 import com.raota.ramenShop.dto.VoteResultsDto;
 import com.raota.ramenShop.dto.WaitingSpotDto;
 import com.raota.ramenShop.service.RamenShopInfoService;
@@ -28,6 +29,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -45,7 +50,9 @@ class RamenShopInfoControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(ramenShopInfoController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(ramenShopInfoController)
+                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()) // ← 추가
+                .build();
     }
 
     @DisplayName("방문 인증이 되면 횟수 추가를 하고 결과 정보를 받는다.")
@@ -189,6 +196,59 @@ class RamenShopInfoControllerTest {
                 .andExpect(jsonPath("$.data.event_menus[0].badge_text").value("발렌타인 한정"))
                 .andExpect(jsonPath("$.data.event_menus[0].period").value("2/1 ~ 2/14 판매"));
     }
+
+    @DisplayName("라멘 가게 리스트를 조회한다.")
+    @Test
+    void get_home_info() throws Exception {
+
+        var featuredStores = List.of(
+                new StoreSummaryResponse(1L, "라멘스키 강남점", "서울 강남구", "돈코츠 라멘",
+                        "https://cdn.mensulang.kr/stores/1.jpg"),
+                new StoreSummaryResponse(2L, "라멘스키 홍대점", "서울 마포구", "돈코츠 라멘",
+                        "https://cdn.mensulang.kr/stores/2.jpg")
+        );
+
+        PageRequest pr = PageRequest.of(0, 2);
+        Page<StoreSummaryResponse> page = new PageImpl<>(featuredStores, pr, 5);
+        // -----------------------------------------------------------
+
+        // 서비스 모킹
+        given(ramenShopInfoService.getRamenShopList(pr)).willReturn(page);
+
+        mockMvc.perform(get("/ramen-shops")
+                        .param("page", "0")
+                        .param("size", "2")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("SUCCESS"))
+
+                // content 배열 검증
+                .andExpect(jsonPath("$.data.content[0].id").value(1))
+                .andExpect(jsonPath("$.data.content[0].name").value("라멘스키 강남점"))
+                .andExpect(jsonPath("$.data.content[0].address").value("서울 강남구"))
+                .andExpect(jsonPath("$.data.content[0].category").value("돈코츠 라멘"))
+                .andExpect(jsonPath("$.data.content[0].imageUrl")
+                        .value("https://cdn.mensulang.kr/stores/1.jpg"))
+
+                .andExpect(jsonPath("$.data.content[1].id").value(2))
+                .andExpect(jsonPath("$.data.content[1].name").value("라멘스키 홍대점"))
+                .andExpect(jsonPath("$.data.content[1].address").value("서울 마포구"))
+                .andExpect(jsonPath("$.data.content[1].imageUrl")
+                        .value("https://cdn.mensulang.kr/stores/2.jpg"))
+
+                // 페이지 메타데이터 검증
+                .andExpect(jsonPath("$.data.totalElements").value(5))
+                .andExpect(jsonPath("$.data.size").value(2))
+                .andExpect(jsonPath("$.data.number").value(0))          // 현재 페이지 index
+                .andExpect(jsonPath("$.data.totalPages").value(3))      // ceil(5/2)=3
+                .andExpect(jsonPath("$.data.first").value(true))
+                .andExpect(jsonPath("$.data.last").value(false))
+                .andExpect(jsonPath("$.data.numberOfElements").value(2))
+                .andExpect(jsonPath("$.data.empty").value(false));
+    }
+
+
+
 
     private RamenShopBasicInfoResponse buildResponse(){
         Long shopId = 101L;

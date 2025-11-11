@@ -6,8 +6,13 @@ import com.raota.ramenShop.controller.response.RamenShopBasicInfoResponse;
 import com.raota.ramenShop.controller.response.VisitCountingResponse;
 import com.raota.ramenShop.controller.response.VotingStatusResponse;
 import com.raota.ramenShop.controller.response.WaitingSpotResponse;
+import com.raota.ramenShop.dto.StoreSummaryResponse;
 import com.raota.ramenShop.service.RamenShopInfoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +60,13 @@ public class RamenShopInfoController {
     @GetMapping("/{shopId}")
     public ResponseEntity<ApiResponse<RamenShopBasicInfoResponse>> getShopDetailInfo(@PathVariable Long shopId) {
         RamenShopBasicInfoResponse response = ramenShopInfoService.getShopDetailInfo(shopId);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<Page<StoreSummaryResponse>>> getShopDetailInfo(
+            @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<StoreSummaryResponse> response = ramenShopInfoService.getRamenShopList(pageable);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }
