@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class StatDto {
+public class ShopStatDto {
     private int visit_count;
     private int review_count;
 }

@@ -15,7 +15,7 @@ import com.raota.domain.ramenShop.controller.response.WaitingSpotResponse;
 import com.raota.domain.ramenShop.dto.BusinessHoursDto;
 import com.raota.domain.ramenShop.dto.EventMenuDto;
 import com.raota.domain.ramenShop.dto.NormalMenuDto;
-import com.raota.domain.ramenShop.dto.StatDto;
+import com.raota.domain.ramenShop.dto.ShopStatDto;
 import com.raota.domain.ramenShop.dto.StoreSummaryResponse;
 import com.raota.domain.ramenShop.dto.VoteResultsDto;
 import com.raota.domain.ramenShop.dto.WaitingSpotDto;
@@ -251,8 +251,6 @@ class RamenShopInfoControllerTest {
 
 
     private RamenShopBasicInfoResponse buildResponse(){
-        Long shopId = 101L;
-
         BusinessHoursDto hours = new BusinessHoursDto(
                 /* closedDays */ "없음",
                 /* openTime   */ "11:30",
@@ -261,7 +259,7 @@ class RamenShopInfoControllerTest {
                 /* breakEnd   */ "17:30"
         );
 
-        StatDto stats = new StatDto(1250, 342);
+        ShopStatDto stats = new ShopStatDto(1250, 342);
 
         List<String> tags = List.of("#시오라멘", "#츠케멘");
 
