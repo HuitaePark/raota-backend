@@ -1,5 +1,6 @@
 package com.raota.ramenShop.service;
 
+import com.raota.ramenShop.controller.response.RamenShopBasicInfoResponse;
 import com.raota.ramenShop.controller.response.VisitCountingResponse;
 import com.raota.ramenShop.controller.response.VotingStatusResponse;
 import com.raota.ramenShop.controller.response.WaitingSpotResponse;
@@ -21,6 +22,10 @@ public class RamenShopInfoService {
     }
 
     public WaitingSpotResponse getWaitingSpot(Long shopId) {
+        return null;
+    }
+
+    public RamenShopBasicInfoResponse getShopDetailInfo(Long shopId) {
         return null;
     }
 }

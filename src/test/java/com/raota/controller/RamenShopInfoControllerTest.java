@@ -8,9 +8,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.raota.ramenShop.controller.RamenShopInfoController;
+import com.raota.ramenShop.controller.response.RamenShopBasicInfoResponse;
 import com.raota.ramenShop.controller.response.VisitCountingResponse;
 import com.raota.ramenShop.controller.response.VotingStatusResponse;
 import com.raota.ramenShop.controller.response.WaitingSpotResponse;
+import com.raota.ramenShop.dto.BusinessHoursDto;
+import com.raota.ramenShop.dto.EventMenuDto;
+import com.raota.ramenShop.dto.NormalMenuDto;
+import com.raota.ramenShop.dto.StatDto;
 import com.raota.ramenShop.dto.VoteResultsDto;
 import com.raota.ramenShop.dto.WaitingSpotDto;
 import com.raota.ramenShop.service.RamenShopInfoService;
@@ -70,7 +75,8 @@ class RamenShopInfoControllerTest {
     @Test
     void view_voting_status() throws Exception {
         Long shopId = 1L;
-        VotingStatusResponse response = new VotingStatusResponse(620,
+        VotingStatusResponse response = new VotingStatusResponse(
+                620,
                 List.of(new VoteResultsDto(1L, "시오라멘", 410, 66.1)));
         given(ramenShopInfoService.getVotingStatus(shopId)).willReturn(response);
 
@@ -132,5 +138,103 @@ class RamenShopInfoControllerTest {
                 .andExpect(jsonPath("$.data.nearby_places[0].address").value("서울 마포구 양화로 123"))
                 .andExpect(jsonPath("$.data.nearby_places[0].image_url").value(
                         "https://cdn.menschelin.com/images/places/starbucks_hongdae.jpg"));
+    }
+
+    @DisplayName("라멘집 기본 상세정보를 반환한다.")
+    @Test
+    void get_shop_detail() throws Exception{
+        Long shopId = 101L;
+        RamenShopBasicInfoResponse response = buildResponse();
+        given(ramenShopInfoService.getShopDetailInfo(shopId)).willReturn(response);
+
+        mockMvc.perform(get("/ramen-shops/{shopId}", shopId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("SUCCESS"))
+
+                // 최상단 필드
+                .andExpect(jsonPath("$.data.id").value(101))
+                .andExpect(jsonPath("$.data.name").value("켄비멘리키"))
+                .andExpect(jsonPath("$.data.image_url").value("https://cdn.menschelin.com/images/rest/101/main.jpg"))
+                .andExpect(jsonPath("$.data.address").value("서울 마포구 서교동 396-12"))
+                .andExpect(jsonPath("$.data.instagram_url").value("https://instagram.com/kenbimen_riki"))
+
+                // business_hours
+                .andExpect(jsonPath("$.data.business_hours.closed_days").value("없음"))
+                .andExpect(jsonPath("$.data.business_hours.open_time").value("11:30"))
+                .andExpect(jsonPath("$.data.business_hours.close_time").value("21:00"))
+                .andExpect(jsonPath("$.data.business_hours.break_start").value("15:00"))
+                .andExpect(jsonPath("$.data.business_hours.break_end").value("17:30"))
+
+                // stats
+                .andExpect(jsonPath("$.data.stats.visit_count").value(1250))
+                .andExpect(jsonPath("$.data.stats.review_count").value(342))
+
+                // tags
+                .andExpect(jsonPath("$.data.tags[0]").value("#시오라멘"))
+                .andExpect(jsonPath("$.data.tags[1]").value("#츠케멘"))
+
+                // normal_menus
+                .andExpect(jsonPath("$.data.normal_menus[0].id").value(1))
+                .andExpect(jsonPath("$.data.normal_menus[0].name").value("시오라멘"))
+                .andExpect(jsonPath("$.data.normal_menus[0].price").value(9000))
+                .andExpect(jsonPath("$.data.normal_menus[0].signature").value(true))
+                .andExpect(jsonPath("$.data.normal_menus[0].image_url")
+                        .value("https://cdn.menschelin.com/images/event/pink_choco.jpg"))
+
+                // event_menus
+                .andExpect(jsonPath("$.data.event_menus[0].id").value(501))
+                .andExpect(jsonPath("$.data.event_menus[0].name").value("핑크 초코 라멘"))
+                .andExpect(jsonPath("$.data.event_menus[0].price").value(12000))
+                .andExpect(jsonPath("$.data.event_menus[0].badge_text").value("발렌타인 한정"))
+                .andExpect(jsonPath("$.data.event_menus[0].period").value("2/1 ~ 2/14 판매"));
+    }
+
+    private RamenShopBasicInfoResponse buildResponse(){
+        Long shopId = 101L;
+
+        BusinessHoursDto hours = new BusinessHoursDto(
+                /* closedDays */ "없음",
+                /* openTime   */ "11:30",
+                /* closeTime  */ "21:00",
+                /* breakStart */ "15:00",
+                /* breakEnd   */ "17:30"
+        );
+
+        StatDto stats = new StatDto(1250, 342);
+
+        List<String> tags = List.of("#시오라멘", "#츠케멘");
+
+        List<NormalMenuDto> normalMenus = List.of(
+                new NormalMenuDto(1L, "시오라멘", 9000, true,  "https://cdn.menschelin.com/images/event/pink_choco.jpg"),
+                new NormalMenuDto(2L, "니보시 츠케멘", 10000, true, "https://cdn.menschelin.com/images/event/pink_choco.jpg"),
+                new NormalMenuDto(3L, "카라구치 라멘", 9500, false, "https://cdn.menschelin.com/images/event/pink_choco.jpg"),
+                new NormalMenuDto(4L, "차슈동", 4000, false, "https://cdn.menschelin.com/images/event/pink_choco.jpg")
+        );
+
+        List<EventMenuDto> eventMenus = List.of(
+                new EventMenuDto(
+                        501L,
+                        "핑크 초코 라멘",
+                        "달콤한 화이트 초콜릿과 돈코츠 육수의 의외의 조합! 핑크빛 면이 사랑스러운 한정판 라멘.",
+                        12000,
+                        "https://cdn.menschelin.com/images/event/pink_choco.jpg",
+                        "발렌타인 한정",
+                        "2/1 ~ 2/14 판매"
+                )
+        );
+
+        return RamenShopBasicInfoResponse.builder()
+                .id(101L)
+                .name("켄비멘리키")
+                .image_url("https://cdn.menschelin.com/images/rest/101/main.jpg")
+                .address("서울 마포구 서교동 396-12")
+                .instagram_url("https://instagram.com/kenbimen_riki")
+                .business_hours(hours)
+                .stats(stats)
+                .tags(tags)
+                .normal_menus(normalMenus)
+                .event_menus(eventMenus)
+                .build();
     }
 }

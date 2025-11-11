@@ -2,6 +2,7 @@ package com.raota.ramenShop.controller;
 
 import com.raota.global.common.ApiResponse;
 import com.raota.ramenShop.controller.request.VisitCertificationRequest;
+import com.raota.ramenShop.controller.response.RamenShopBasicInfoResponse;
 import com.raota.ramenShop.controller.response.VisitCountingResponse;
 import com.raota.ramenShop.controller.response.VotingStatusResponse;
 import com.raota.ramenShop.controller.response.WaitingSpotResponse;
@@ -48,6 +49,12 @@ public class RamenShopInfoController {
     @GetMapping("/{shopId}/nearby")
     public ResponseEntity<ApiResponse<WaitingSpotResponse>> getNearByPlace(@PathVariable Long shopId) {
         WaitingSpotResponse response = ramenShopInfoService.getWaitingSpot(shopId);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @GetMapping("/{shopId}")
+    public ResponseEntity<ApiResponse<RamenShopBasicInfoResponse>> getShopDetailInfo(@PathVariable Long shopId) {
+        RamenShopBasicInfoResponse response = ramenShopInfoService.getShopDetailInfo(shopId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }
