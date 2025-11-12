@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.raota.domain.user.controller.UserInfoController;
 import com.raota.domain.user.controller.response.BookmarkSummaryResponse;
 import com.raota.domain.user.controller.response.PhotoSummaryResponse;
+import com.raota.domain.user.controller.response.VisitSummaryResponse;
 import com.raota.domain.user.dto.UserStatsDto;
 import com.raota.domain.user.controller.response.MyProfileResponse;
 import com.raota.domain.user.service.UserInfoService;
@@ -204,4 +205,44 @@ public class UserInfoControllerTest {
                 .andExpect(jsonPath("$.data.last").value(true));
     }
 
+    @DisplayName("내 방문 기록을 페이징으로 조회한다.")
+    @Test
+    void get_my_visits() throws Exception {
+        var list = List.of(
+                new VisitSummaryResponse(102L, "라멘 스타일 스타일",
+                        "https://cdn.menschelin.com/images/rest/102/main.jpg", "서울 시내",
+                        3, "2025-11-05T13:00:00"),
+                new VisitSummaryResponse(101L, "켄비멘리키",
+                        "https://cdn.menschelin.com/images/rest/101/main.jpg", "서울 마포구",
+                        1, "2025-10-28T14:30:00")
+        );
+
+        var pageable = PageRequest.of(0, 20);
+        var page = new PageImpl<>(list, pageable, 12);
+
+        given(userInfoService.getMyVisits(pageable)).willReturn(page);
+
+        mockMvc.perform(get("/users/me/visits")
+                        .param("page", "0")
+                        .param("size", "20")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("SUCCESS"))
+
+                // content 검증
+                .andExpect(jsonPath("$.data.content[0].restaurant_id").value(102))
+                .andExpect(jsonPath("$.data.content[0].restaurant_name").value("라멘 스타일 스타일"))
+                .andExpect(jsonPath("$.data.content[0].visit_count_for_user").value(3))
+                .andExpect(jsonPath("$.data.content[0].last_visited_at").value("2025-11-05T13:00:00"))
+                .andExpect(jsonPath("$.data.content[1].restaurant_id").value(101))
+                .andExpect(jsonPath("$.data.content[1].address_simple").value("서울 마포구"))
+
+                // 페이지 메타데이터
+                .andExpect(jsonPath("$.data.size").value(20))
+                .andExpect(jsonPath("$.data.number").value(0))
+                .andExpect(jsonPath("$.data.totalElements").value(2))
+                .andExpect(jsonPath("$.data.totalPages").value(1))
+                .andExpect(jsonPath("$.data.first").value(true))
+                .andExpect(jsonPath("$.data.last").value(true));
+    }
 }

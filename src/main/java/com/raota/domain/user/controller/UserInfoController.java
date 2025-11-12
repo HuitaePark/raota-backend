@@ -4,6 +4,7 @@ import com.raota.domain.user.controller.request.UpdateProfileRequest;
 import com.raota.domain.user.controller.response.BookmarkSummaryResponse;
 import com.raota.domain.user.controller.response.MyProfileResponse;
 import com.raota.domain.user.controller.response.PhotoSummaryResponse;
+import com.raota.domain.user.controller.response.VisitSummaryResponse;
 import com.raota.domain.user.service.UserInfoService;
 import com.raota.global.common.ApiResponse;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,12 @@ public class UserInfoController {
     @GetMapping("/me/bookmarks")
     public ResponseEntity<ApiResponse<Page<BookmarkSummaryResponse>>> getMyBookmarks(Pageable pageable) {
         Page<BookmarkSummaryResponse> page = userInfoService.getMyBookmarks(pageable);
+        return ResponseEntity.ok(ApiResponse.success(page));
+    }
+
+    @GetMapping("/me/visits")
+    public ResponseEntity<ApiResponse<Page<VisitSummaryResponse>>> getMyVisits(Pageable pageable) {
+        Page<VisitSummaryResponse> page = userInfoService.getMyVisits(pageable);
         return ResponseEntity.ok(ApiResponse.success(page));
     }
 }
