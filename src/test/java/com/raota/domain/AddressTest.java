@@ -17,4 +17,14 @@ public class AddressTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("도시는 필수입니다.");
     }
+
+    @DisplayName("주소의 도로명이 입력되지 않으면 에러가 발생한다.")
+    @Test
+    void district_in_the_address_is_no_entered(){
+        assertThatThrownBy(()->{
+            Address address = Address.of("서울시","영등포구","","123");
+        })
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("도로명은 필수입니다.");
+    }
 }

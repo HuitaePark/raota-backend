@@ -14,6 +14,9 @@ public record Address(
         if (city == null || city.isBlank()) {
             throw new IllegalArgumentException("도시는 필수입니다.");
         }
+        if (street == null || street.isBlank()) {
+            throw new IllegalArgumentException("도로명은 필수입니다.");
+        }
     }
 
     public static Address of(String city, String district, String street, String detail) {
