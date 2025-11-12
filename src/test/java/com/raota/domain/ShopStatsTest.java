@@ -19,14 +19,29 @@ public class ShopStatsTest {
         assertThat(plusStats.visitCount()).isEqualTo(1);
     }
 
-    @DisplayName("리뷰를 1회하면 리뷰수가 1회 증가한다.")
+    @DisplayName("북마크를 하면 북마크 수가 1회 증가한다.")
     @Test
     void increase_review_count_test(){
         ShopStats shopStats = ShopStats.init();
-        assertThat(shopStats.reviewCount()).isEqualTo(0);
+        assertThat(shopStats.bookmarkCount()).isEqualTo(0);
 
-        ShopStats plusStats = shopStats.increaseReview();
+        ShopStats plusStats = shopStats.increaseBookmark();
 
-        assertThat(plusStats.reviewCount()).isEqualTo(1);
+        assertThat(plusStats.bookmarkCount()).isEqualTo(1);
     }
+
+    @DisplayName("방문 기록을 삭제하면 방문수가 1 감소한다. 또한 0 아래로 감소하지 않는다.")
+    @Test
+    void decrease_visit_count_test(){
+        ShopStats shopStats = ShopStats.init();
+        assertThat(shopStats.visitCount()).isEqualTo(0);
+
+        ShopStats plusStats = shopStats.increaseVisit();
+        ShopStats minusStats = plusStats.decreaseVisit();
+        assertThat(minusStats.visitCount()).isEqualTo(0);
+
+        ShopStats minusStats2 = minusStats.decreaseVisit();
+        assertThat(minusStats2.visitCount()).isEqualTo(0);
+    }
+
 }
