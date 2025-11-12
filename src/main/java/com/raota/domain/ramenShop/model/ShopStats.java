@@ -16,4 +16,7 @@ public record ShopStats(
         return new ShopStats(visitCount + 1, reviewCount);
     }
 
+    public ShopStats increaseReview() {
+        return new ShopStats(visitCount, reviewCount + 1);
+    }
 }

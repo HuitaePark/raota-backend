@@ -18,4 +18,15 @@ public class ShopStatsTest {
 
         assertThat(plusStats.visitCount()).isEqualTo(1);
     }
+
+    @DisplayName("리뷰를 1회하면 리뷰수가 1회 증가한다.")
+    @Test
+    void increase_review_count_test(){
+        ShopStats shopStats = ShopStats.init();
+        assertThat(shopStats.reviewCount()).isEqualTo(0);
+
+        ShopStats plusStats = shopStats.increaseReview();
+
+        assertThat(plusStats.reviewCount()).isEqualTo(1);
+    }
 }
