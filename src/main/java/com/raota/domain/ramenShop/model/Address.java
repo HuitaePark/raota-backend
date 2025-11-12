@@ -26,4 +26,8 @@ public record Address(
     public String fullAddress() {
         return String.format("%s %s %s %s", city, district, street, detail);
     }
+
+    public String simpleAddress() {
+        return String.format("%s %s", city, district);
+    }
 }

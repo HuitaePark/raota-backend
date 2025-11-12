@@ -37,4 +37,13 @@ public class AddressTest {
 
         assertThat(fullAddress).isEqualTo("서울시 영등포구 당산동 123");
     }
+
+    @DisplayName("주소의 간단한 주소명을 출력한다.")
+    @Test
+    void Print_simple_address_names(){
+        Address address = Address.of("서울시","영등포구","당산동","123");
+        String simpleAddress = address.simpleAddress();
+
+        assertThat(simpleAddress).isEqualTo("서울시 영등포구");
+    }
 }
