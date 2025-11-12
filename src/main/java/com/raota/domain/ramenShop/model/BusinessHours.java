@@ -31,4 +31,11 @@ public record BusinessHours(
     public static BusinessHours of(String closedDays, LocalTime open, LocalTime close, LocalTime breakStart, LocalTime breakEnd) {
         return new BusinessHours(closedDays, open, close, breakStart, breakEnd);
     }
+
+    public String toDisplayString() {
+        return "%s %s~%s (Break %s~%s)".formatted(
+                closedDays != null ? closedDays : "없음",
+                openTime, closeTime, breakStart, breakEnd
+        );
+    }
 }
