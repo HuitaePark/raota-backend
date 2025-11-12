@@ -44,4 +44,17 @@ public class ShopStatsTest {
         assertThat(minusStats2.visitCount()).isEqualTo(0);
     }
 
+    @DisplayName("북마크를 삭제하면 북마크 수가 1 감소한다. 또한 0 아래로 감소하지 않는다.")
+    @Test
+    void decrease_bookmark_count_test(){
+        ShopStats shopStats = ShopStats.init();
+        assertThat(shopStats.bookmarkCount()).isEqualTo(0);
+
+        ShopStats plusStats = shopStats.increaseBookmark();
+        ShopStats minusStats = plusStats.decreaseBookmark();
+        assertThat(minusStats.bookmarkCount()).isEqualTo(0);
+
+        ShopStats minusStats2 = minusStats.decreaseBookmark();
+        assertThat(minusStats2.bookmarkCount()).isEqualTo(0);
+    }
 }

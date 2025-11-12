@@ -26,4 +26,11 @@ public record ShopStats(
         }
         return new ShopStats(visitCount - 1, bookmarkCount);
     }
+
+    public ShopStats decreaseBookmark() {
+        if (bookmarkCount <= 0) {
+            return new ShopStats(visitCount, 0);
+        }
+        return new ShopStats(visitCount, bookmarkCount - 1);
+    }
 }
