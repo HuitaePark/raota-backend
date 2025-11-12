@@ -1,5 +1,6 @@
 package com.raota.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.raota.domain.ramenShop.model.Address;
@@ -26,5 +27,14 @@ public class AddressTest {
         })
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("도로명은 필수입니다.");
+    }
+
+    @DisplayName("주소의 모든 주소 이름을 출력한다.")
+    @Test
+    void Print_all_address_names(){
+        Address address = Address.of("서울시","영등포구","당산동","123");
+        String fullAddress = address.fullAddress();
+
+        assertThat(fullAddress).isEqualTo("서울시 영등포구 당산동 123");
     }
 }

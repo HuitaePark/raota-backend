@@ -10,7 +10,7 @@ public record Address(
         @Column(name = "street") String street,
         @Column(name = "detail") String detail
 ) {
-    public Address{
+    public Address {
         if (city == null || city.isBlank()) {
             throw new IllegalArgumentException("도시는 필수입니다.");
         }
@@ -21,5 +21,9 @@ public record Address(
 
     public static Address of(String city, String district, String street, String detail) {
         return new Address(city, district, street, detail);
+    }
+
+    public String fullAddress() {
+        return String.format("%s %s %s %s", city, district, street, detail);
     }
 }
