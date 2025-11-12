@@ -1,6 +1,6 @@
-package com.raota.domain.ramenShop.service;
+package com.raota.domain.proofPicture.service;
 
-import com.raota.domain.ramenShop.controller.response.ProofPictureInfoResponse;
+import com.raota.domain.proofPicture.controller.response.ProofPictureInfoResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
