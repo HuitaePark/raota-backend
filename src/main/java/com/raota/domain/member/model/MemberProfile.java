@@ -1,5 +1,6 @@
 package com.raota.domain.member.model;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,15 +13,12 @@ import lombok.NoArgsConstructor;
 public class MemberProfile {
 
     @Builder
-    public MemberProfile(int bookmarkCount, Long id, String imageUrl, String nickname, int photoCount,
-                         int visitedRestaurantCount) {
+    public MemberProfile(Long id, String imageUrl, String nickname,MemberActivityStats stats) {
         verifyNicknameBlank(nickname);
-        this.bookmarkCount = bookmarkCount;
         this.id = id;
         this.imageUrl = imageUrl;
         this.nickname = nickname;
-        this.photoCount = photoCount;
-        this.visitedRestaurantCount = visitedRestaurantCount;
+        this.memberActivityStats = stats;
     }
 
     @Id
@@ -31,13 +29,13 @@ public class MemberProfile {
 
     private String imageUrl;
 
-    private int visitedRestaurantCount = 0;
-    private int photoCount = 0;
-    private int bookmarkCount = 0;
+    @Embedded
+    private MemberActivityStats memberActivityStats;
 
     private void verifyNicknameBlank(String nickname) {
         if (nickname.isBlank()) {
             throw new IllegalArgumentException("닉네임은 공백일수 없습니다.");
         }
     }
+
 }
