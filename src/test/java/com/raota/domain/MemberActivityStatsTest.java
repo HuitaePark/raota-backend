@@ -13,8 +13,18 @@ public class MemberActivityStatsTest {
     void increase_visited_count() {
         MemberActivityStats stats = MemberActivityStats.init();
 
-        MemberActivityStats plusStats =  stats.increaseVisitedRestaurantCount();
+        MemberActivityStats plusStats =  stats.increaseVisited();
 
         assertThat(plusStats.visitedRestaurantCount()).isEqualTo(1);
+    }
+
+    @DisplayName("유저가 사진을 업로드 하면 방문 횟수가 증가한다.")
+    @Test
+    void increase_photo_count() {
+        MemberActivityStats stats = MemberActivityStats.init();
+
+        MemberActivityStats plusStats =  stats.increasePhoto();
+
+        assertThat(plusStats.photoCount()).isEqualTo(1);
     }
 }

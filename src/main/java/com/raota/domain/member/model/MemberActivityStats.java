@@ -12,7 +12,11 @@ public record MemberActivityStats(
         return new MemberActivityStats(0,0,0);
     }
 
-    public MemberActivityStats increaseVisitedRestaurantCount() {
+    public MemberActivityStats increaseVisited(){
         return new MemberActivityStats(visitedRestaurantCount+1,photoCount,bookmarkCount);
+    }
+
+    public MemberActivityStats increasePhoto() {
+        return new MemberActivityStats(this.visitedRestaurantCount, this.photoCount + 1, this.bookmarkCount);
     }
 }
