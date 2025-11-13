@@ -1,16 +1,16 @@
-package com.raota.domain.user.service;
+package com.raota.domain.member.service;
 
-import com.raota.domain.user.controller.request.UpdateProfileRequest;
-import com.raota.domain.user.controller.response.BookmarkSummaryResponse;
-import com.raota.domain.user.controller.response.MyProfileResponse;
-import com.raota.domain.user.controller.response.PhotoSummaryResponse;
-import com.raota.domain.user.controller.response.VisitSummaryResponse;
+import com.raota.domain.member.controller.request.UpdateProfileRequest;
+import com.raota.domain.member.controller.response.BookmarkSummaryResponse;
+import com.raota.domain.member.controller.response.MyProfileResponse;
+import com.raota.domain.member.controller.response.PhotoSummaryResponse;
+import com.raota.domain.member.controller.response.VisitSummaryResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserInfoService {
+public class MemberInfoService {
 
     public MyProfileResponse getMyProfile() {
         return null;

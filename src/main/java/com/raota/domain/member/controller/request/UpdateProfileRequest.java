@@ -1,4 +1,4 @@
-package com.raota.domain.user.controller.request;
+package com.raota.domain.member.controller.request;
 
 public class UpdateProfileRequest {
     private String nickname;

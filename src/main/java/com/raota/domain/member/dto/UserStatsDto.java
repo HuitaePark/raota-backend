@@ -1,4 +1,4 @@
-package com.raota.domain.user.dto;
+package com.raota.domain.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

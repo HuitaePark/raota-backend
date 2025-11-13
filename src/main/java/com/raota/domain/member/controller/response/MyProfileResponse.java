@@ -1,7 +1,7 @@
-package com.raota.domain.user.controller.response;
+package com.raota.domain.member.controller.response;
 
 
-import com.raota.domain.user.dto.UserStatsDto;
+import com.raota.domain.member.dto.UserStatsDto;
 
 public record MyProfileResponse (
         Long user_id,

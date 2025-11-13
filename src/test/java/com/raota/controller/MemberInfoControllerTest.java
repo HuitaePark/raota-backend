@@ -8,13 +8,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.raota.domain.user.controller.UserInfoController;
-import com.raota.domain.user.controller.response.BookmarkSummaryResponse;
-import com.raota.domain.user.controller.response.PhotoSummaryResponse;
-import com.raota.domain.user.controller.response.VisitSummaryResponse;
-import com.raota.domain.user.dto.UserStatsDto;
-import com.raota.domain.user.controller.response.MyProfileResponse;
-import com.raota.domain.user.service.UserInfoService;
+import com.raota.domain.member.controller.MemberInfoController;
+import com.raota.domain.member.controller.response.BookmarkSummaryResponse;
+import com.raota.domain.member.controller.response.PhotoSummaryResponse;
+import com.raota.domain.member.controller.response.VisitSummaryResponse;
+import com.raota.domain.member.dto.UserStatsDto;
+import com.raota.domain.member.controller.response.MyProfileResponse;
+import com.raota.domain.member.service.MemberInfoService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,15 +32,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @ExtendWith(MockitoExtension.class)
-public class UserInfoControllerTest {
+public class MemberInfoControllerTest {
 
     private MockMvc mockMvc;
 
     @InjectMocks
-    private UserInfoController userInfoController;
+    private MemberInfoController userInfoController;
 
     @Mock
-    private UserInfoService userInfoService;
+    private MemberInfoService memberInfoService;
 
     @BeforeEach
     void setUp() {
@@ -66,7 +66,7 @@ public class UserInfoControllerTest {
                 stats
         );
 
-        given(userInfoService.getMyProfile()).willReturn(response);
+        given(memberInfoService.getMyProfile()).willReturn(response);
 
         mockMvc.perform(get("/users/me/profile")
                         .accept(MediaType.APPLICATION_JSON))
@@ -99,7 +99,7 @@ public class UserInfoControllerTest {
                 stats
         );
 
-        given(userInfoService.updateMyProfile(any())).willReturn(updated);
+        given(memberInfoService.updateMyProfile(any())).willReturn(updated);
 
         mockMvc.perform(patch("/users/me/profile")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -141,7 +141,7 @@ public class UserInfoControllerTest {
         PageRequest pageable = PageRequest.of(0, 20);
         Page<PhotoSummaryResponse> page = new PageImpl<>(photos, pageable, 4);
 
-        given(userInfoService.getMyPhotoList(pageable)).willReturn(page);
+        given(memberInfoService.getMyPhotoList(pageable)).willReturn(page);
 
         mockMvc.perform(get("/users/me/photos")
                         .param("page", "0")
@@ -180,7 +180,7 @@ public class UserInfoControllerTest {
         var pageable = PageRequest.of(0, 20);
         var page = new PageImpl<>(list, pageable, 2);
 
-        given(userInfoService.getMyBookmarks(pageable)).willReturn(page);
+        given(memberInfoService.getMyBookmarks(pageable)).willReturn(page);
 
         mockMvc.perform(get("/users/me/bookmarks")
                         .param("page", "0")
@@ -220,7 +220,7 @@ public class UserInfoControllerTest {
         var pageable = PageRequest.of(0, 20);
         var page = new PageImpl<>(list, pageable, 12);
 
-        given(userInfoService.getMyVisits(pageable)).willReturn(page);
+        given(memberInfoService.getMyVisits(pageable)).willReturn(page);
 
         mockMvc.perform(get("/users/me/visits")
                         .param("page", "0")

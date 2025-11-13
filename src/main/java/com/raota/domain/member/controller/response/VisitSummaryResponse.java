@@ -1,4 +1,4 @@
-package com.raota.domain.user.controller.response;
+package com.raota.domain.member.controller.response;
 
 public record VisitSummaryResponse(
         Long restaurant_id,
