@@ -1,4 +1,4 @@
-package com.raota.domain;
+package com.raota.domain.ramenShop;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
