@@ -19,4 +19,10 @@ public record MemberActivityStats(
     public MemberActivityStats increasePhoto() {
         return new MemberActivityStats(this.visitedRestaurantCount, this.photoCount + 1, this.bookmarkCount);
     }
+
+    public MemberActivityStats increaseBookmark() {
+        return new MemberActivityStats(this.visitedRestaurantCount, this.photoCount, this.bookmarkCount + 1);
+    }
 }
+
+

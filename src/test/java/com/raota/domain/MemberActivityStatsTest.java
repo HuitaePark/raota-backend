@@ -27,4 +27,14 @@ public class MemberActivityStatsTest {
 
         assertThat(plusStats.photoCount()).isEqualTo(1);
     }
+
+    @DisplayName("유저가 북마크하면 북마크수가 1 올라간다.")
+    @Test
+    void increase_bookmark_count() {
+        MemberActivityStats stats = MemberActivityStats.init();
+
+        MemberActivityStats plusStats =  stats.increaseBookmark();
+
+        assertThat(plusStats.bookmarkCount()).isEqualTo(1);
+    }
 }
