@@ -23,6 +23,30 @@ public record MemberActivityStats(
     public MemberActivityStats increaseBookmark() {
         return new MemberActivityStats(this.visitedRestaurantCount, this.photoCount, this.bookmarkCount + 1);
     }
+
+    public MemberActivityStats decreaseVisit() {
+        return new MemberActivityStats(
+                Math.max(0, visitedRestaurantCount - 1),
+                photoCount,
+                bookmarkCount
+        );
+    }
+
+    public MemberActivityStats decreasePhoto() {
+        return new MemberActivityStats(
+                visitedRestaurantCount,
+                Math.max(0, photoCount - 1),
+                bookmarkCount
+        );
+    }
+
+    public MemberActivityStats decreaseBookmark() {
+        return new MemberActivityStats(
+                visitedRestaurantCount,
+                photoCount,
+                Math.max(0, bookmarkCount - 1)
+        );
+    }
 }
 
 

@@ -37,4 +37,15 @@ public class MemberActivityStatsTest {
 
         assertThat(plusStats.bookmarkCount()).isEqualTo(1);
     }
+
+    @DisplayName("북마크 수는 감소해도 0 아래로 내려가지 않는다.")
+    @Test
+    void decrease_bookmark_count_cannot_go_below_zero() {
+        MemberActivityStats stats = MemberActivityStats.init(); // bookmarkCount = 0
+
+        MemberActivityStats result = stats.decreaseBookmark();
+
+        assertThat(result.bookmarkCount()).isEqualTo(0); // 음수 방지 확인
+    }
+
 }
