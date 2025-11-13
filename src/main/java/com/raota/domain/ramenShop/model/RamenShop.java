@@ -36,6 +36,7 @@ public class RamenShop {
     private BusinessHours businessHours;
 
     @Embedded
+    @Builder.Default
     private ShopStats stats = ShopStats.init();
 
     @Column(name = "tags")

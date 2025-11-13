@@ -30,6 +30,7 @@ public class NormalMenu {
     @Column
     private Integer price;
 
+    @Builder.Default
     @Column(name = "is_signature", nullable = false)
     private Boolean isSignature = false;
 
