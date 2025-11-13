@@ -1,15 +1,11 @@
 package com.raota.domain.ramenShop.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,7 +47,6 @@ public class RamenShop {
     @Embedded
     private NormalMenus normalMenus;
 
-    @OneToMany(mappedBy = "ramenShop", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EventMenu> eventMenus = new ArrayList<>();
-
+    @Embedded
+    private EventMenus eventMenus;
 }
