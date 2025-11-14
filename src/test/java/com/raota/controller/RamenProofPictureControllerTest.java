@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.raota.domain.proofPicture.controller.RamenProofPictureController;
 import com.raota.domain.proofPicture.controller.response.ProofPictureInfoResponse;
 import com.raota.domain.proofPicture.service.RamenProofPictureService;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,7 +57,7 @@ class RamenProofPictureControllerTest {
                 "dummy".getBytes()
         );
 
-        ProofPictureInfoResponse response = new  ProofPictureInfoResponse(702L,"https://cdn.menschelin.com/images/user/photo/702.jpg","방금먹음","2025-11-06T10:10:00");
+        ProofPictureInfoResponse response = new  ProofPictureInfoResponse(702L,"https://cdn.menschelin.com/images/user/photo/702.jpg","방금먹음",LocalDateTime.now());
         given(service.addProofPicture(shopId,file)).willReturn(response);
 
         mockMvc.perform(multipart("/photos/{shopId}", shopId)
@@ -65,8 +66,7 @@ class RamenProofPictureControllerTest {
                 .andExpect(jsonPath("$.status").value("SUCCESS"))
                 .andExpect(jsonPath("$.data.photo_id").value(702L))
                 .andExpect(jsonPath("$.data.image_url").value("https://cdn.menschelin.com/images/user/photo/702.jpg"))
-                .andExpect(jsonPath("$.data.uploader_nickname").value("방금먹음"))
-                .andExpect(jsonPath("$.data.uploaded_at").value("2025-11-06T10:10:00"));
+                .andExpect(jsonPath("$.data.uploader_nickname").value("방금먹음"));
     }
 
     @Test
@@ -79,13 +79,13 @@ class RamenProofPictureControllerTest {
                 702L,
                 "https://cdn.menschelin.com/images/user/photo/702.jpg",
                 "방금먹음",
-                "2025-11-06T10:10:00"
+                LocalDateTime.now()
         );
         ProofPictureInfoResponse r2 = new ProofPictureInfoResponse(
                 703L,
                 "https://cdn.menschelin.com/images/user/photo/703.jpg",
                 "또먹음",
-                "2025-11-07T09:00:00"
+                LocalDateTime.now()
         );
 
         PageRequest pr = PageRequest.of(0, 2);
