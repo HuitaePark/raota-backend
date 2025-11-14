@@ -2,6 +2,7 @@ package com.raota.domain.proofPicture.model;
 
 import com.raota.domain.member.model.MemberProfile;
 import com.raota.domain.ramenShop.model.RamenShop;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -40,6 +41,7 @@ public class RamenProofPicture {
 
     private String description;
 
+    @Column(nullable = false)
     private String imageUrl;
 
     @CreationTimestamp
