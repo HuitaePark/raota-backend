@@ -1,4 +1,4 @@
-package com.raota;
+package com.raota.repository;
 
 import com.raota.domain.member.model.MemberActivityStats;
 import com.raota.domain.member.model.MemberProfile;

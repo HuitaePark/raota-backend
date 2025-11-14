@@ -1,8 +1,9 @@
-package com.raota.repository.command;
+package com.raota.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.raota.domain.member.controller.response.MyProfileResponse;
 import com.raota.domain.member.model.MemberActivityStats;
 import com.raota.domain.member.model.MemberProfile;
 import com.raota.domain.member.repository.MemberRepository;
@@ -57,4 +58,21 @@ public class MemberRepositoryTest {
         });
     }
 
+    @DisplayName("유저의 상세 정보를 불러온다.")
+    @Test
+    void find_user_detail_info(){
+        MemberProfile member = MemberProfile.builder()
+                .nickname("테스트")
+                .imageUrl("http")
+                .stats(MemberActivityStats.init())
+                .build();
+
+        MemberProfile saved = memberRepository.save(member);
+
+        MyProfileResponse result = memberRepository.findMemberDetailInfo(saved.getId());
+
+        assertThat(result.nickname()).isEqualTo("테스트");
+        assertThat(result.profile_image_url()).isEqualTo("http");
+        assertThat(result.stats().getTotal_photo_count()).isEqualTo(0);
+    }
 }
