@@ -1,6 +1,7 @@
 package com.raota.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.raota.domain.member.model.MemberActivityStats;
 import com.raota.domain.member.model.MemberProfile;
@@ -42,4 +43,18 @@ public class MemberRepositoryTest {
         assertThat(updated.getNickname()).isEqualTo("업데이트");
         assertThat(updated.getImageUrl()).isEqualTo("https://1234");
     }
+
+    @DisplayName("유저 프로필 닉네임이 비어있으면 에러가 발생한다.")
+    @Test
+    void userNickname_is_null_error(){
+        assertThatThrownBy(()->{
+            MemberProfile member = MemberProfile.builder()
+                    .nickname(null)
+                    .imageUrl("http://test.com")
+                    .stats(MemberActivityStats.init())
+                    .build();
+            memberRepository.save(member);
+        });
+    }
+
 }
