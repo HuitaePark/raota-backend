@@ -55,8 +55,7 @@ public class MemberInfoControllerTest {
         var stats = new UserStatsDto(
                 12,
                 3,
-                4,
-                2
+                4
         );
 
         var response = new MyProfileResponse(
@@ -81,16 +80,15 @@ public class MemberInfoControllerTest {
 
                 // 통계 정보
                 .andExpect(jsonPath("$.data.stats.visited_restaurant_count").value(12))
-                .andExpect(jsonPath("$.data.stats.total_visit_count").value(3))
-                .andExpect(jsonPath("$.data.stats.total_photo_count").value(4))
-                .andExpect(jsonPath("$.data.stats.total_bookmark_count").value(2));
+                .andExpect(jsonPath("$.data.stats.total_photo_count").value(3))
+                .andExpect(jsonPath("$.data.stats.total_bookmark_count").value(4));
     }
 
     @DisplayName("프로필을 수정하면 변경된 프로필 정보를 반환한다.")
     @Test
     void update_my_profile() throws Exception {
 
-        var stats = new UserStatsDto(12, 3, 4, 2);
+        var stats = new UserStatsDto(12, 3, 4);
 
         var updated = new MyProfileResponse(
                 201L,
