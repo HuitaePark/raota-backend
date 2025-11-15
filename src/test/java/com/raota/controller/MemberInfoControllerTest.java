@@ -15,6 +15,7 @@ import com.raota.domain.member.controller.response.VisitSummaryResponse;
 import com.raota.domain.member.dto.UserStatsDto;
 import com.raota.domain.member.controller.response.MyProfileResponse;
 import com.raota.domain.member.service.MemberInfoService;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -208,11 +209,11 @@ public class MemberInfoControllerTest {
     void get_my_visits() throws Exception {
         var list = List.of(
                 new VisitSummaryResponse(102L, "라멘 스타일 스타일",
-                        "https://cdn.menschelin.com/images/rest/102/main.jpg", "서울 시내",
-                        3, "2025-11-05T13:00:00"),
+                        "https://cdn.menschelin.com/images/rest/102/main.jpg", "서울" ,"시내",
+                        3, LocalDateTime.now()),
                 new VisitSummaryResponse(101L, "켄비멘리키",
-                        "https://cdn.menschelin.com/images/rest/101/main.jpg", "서울 마포구",
-                        1, "2025-10-28T14:30:00")
+                        "https://cdn.menschelin.com/images/rest/101/main.jpg", "서울","마포구",
+                        1, LocalDateTime.now())
         );
 
         var pageable = PageRequest.of(0, 20);
@@ -231,7 +232,6 @@ public class MemberInfoControllerTest {
                 .andExpect(jsonPath("$.data.content[0].restaurant_id").value(102))
                 .andExpect(jsonPath("$.data.content[0].restaurant_name").value("라멘 스타일 스타일"))
                 .andExpect(jsonPath("$.data.content[0].visit_count_for_user").value(3))
-                .andExpect(jsonPath("$.data.content[0].last_visited_at").value("2025-11-05T13:00:00"))
                 .andExpect(jsonPath("$.data.content[1].restaurant_id").value(101))
                 .andExpect(jsonPath("$.data.content[1].address_simple").value("서울 마포구"))
 

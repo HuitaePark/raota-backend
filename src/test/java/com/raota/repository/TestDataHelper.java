@@ -5,6 +5,7 @@ import com.raota.domain.member.model.MemberProfile;
 import com.raota.domain.member.repository.MemberRepository;
 import com.raota.domain.proofPicture.model.RamenProofPicture;
 import com.raota.domain.proofPicture.repository.RamenProofPictureRepository;
+import com.raota.domain.ramenShop.model.Address;
 import com.raota.domain.ramenShop.model.RamenShop;
 import com.raota.domain.ramenShop.repository.RamenShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class TestDataHelper {
     public RamenShop createRamenShop(String name) {
         RamenShop shop = RamenShop.builder()
                 .name(name)
+                .address(new Address("서울","마포구","연남동","1234"))
                 .build();
         return ramenShopRepository.save(shop);
     }

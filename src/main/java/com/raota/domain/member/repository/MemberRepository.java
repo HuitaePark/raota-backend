@@ -1,9 +1,13 @@
 package com.raota.domain.member.repository;
 
 import com.raota.domain.member.controller.response.MyProfileResponse;
+import com.raota.domain.member.controller.response.VisitSummaryResponse;
 import com.raota.domain.member.model.MemberProfile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface MemberRepository extends JpaRepository<MemberProfile,Long> {
     @Query("""
@@ -21,4 +25,32 @@ public interface MemberRepository extends JpaRepository<MemberProfile,Long> {
     where m.id = :id
     """)
     MyProfileResponse findMemberDetailInfo(Long id);
+
+    @Query(value = """
+    select new com.raota.domain.member.controller.response.VisitSummaryResponse(
+        r.id,
+        r.name,
+        r.imageUrl,
+        r.address.city,
+        r.address.district,
+        count(p.id),
+        max(p.uploadAt))
+    from MemberProfile m
+    left join RamenProofPicture p on p.memberProfile = m
+    left join p.ramenShop r
+    where m.id = :memberId
+    group by r.id, r.name, r.imageUrl, r.address.city, r.address.district
+    order by count(p.id) desc
+    """,
+            countQuery = """
+    select count(distinct r.id)
+    from MemberProfile m
+    left join RamenProofPicture p on p.memberProfile = m
+    left join p.ramenShop r
+    where m.id = :memberId
+    """)
+    Page<VisitSummaryResponse> findMyVisitRestaurant(
+            @Param("memberId") Long memberId,
+            Pageable pageable
+    );
 }
