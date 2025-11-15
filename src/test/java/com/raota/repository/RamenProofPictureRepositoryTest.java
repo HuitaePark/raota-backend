@@ -7,6 +7,7 @@ import com.raota.domain.member.model.MemberProfile;
 import com.raota.domain.proofPicture.controller.response.ProofPictureInfoResponse;
 import com.raota.domain.proofPicture.model.RamenProofPicture;
 import com.raota.domain.proofPicture.repository.RamenProofPictureRepository;
+import com.raota.domain.ramenShop.model.Address;
 import com.raota.domain.ramenShop.model.RamenShop;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +36,7 @@ public class RamenProofPictureRepositoryTest {
     @BeforeEach
     void setUp(){
         memberProfile = testDataHelper.createMember("테스트");
-        ramenShop = testDataHelper.createRamenShop("테스트 라멘샵");
+        ramenShop = testDataHelper.createRamenShop("테스트 라멘샵",new Address("서울시","영등포구","",""));
     }
 
     @DisplayName("이미지 url이 비어있으면 에러가 발생한다.")

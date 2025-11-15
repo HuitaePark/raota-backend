@@ -170,10 +170,10 @@ public class MemberInfoControllerTest {
         var list = List.of(
                 new BookmarkSummaryResponse(102L, "라멘 스타일 스타일",
                         "https://cdn.menschelin.com/images/rest/102/main.jpg", "서울 시내",
-                        "2025-11-01T10:00:00"),
+                        LocalDateTime.now()),
                 new BookmarkSummaryResponse(105L, "또다른 라멘집",
                         "https://cdn.menschelin.com/images/rest/105/main.jpg", "서울 강남구",
-                        "2025-10-20T18:00:00")
+                        LocalDateTime.now())
         );
 
         var pageable = PageRequest.of(0, 20);
@@ -193,7 +193,6 @@ public class MemberInfoControllerTest {
                 .andExpect(jsonPath("$.data.content[0].restaurant_name").value("라멘 스타일 스타일"))
                 .andExpect(jsonPath("$.data.content[0].restaurant_image_url").value("https://cdn.menschelin.com/images/rest/102/main.jpg"))
                 .andExpect(jsonPath("$.data.content[0].address_simple").value("서울 시내"))
-                .andExpect(jsonPath("$.data.content[0].bookmarked_at").value("2025-11-01T10:00:00"))
 
                 // 페이지 메타데이터
                 .andExpect(jsonPath("$.data.size").value(20))

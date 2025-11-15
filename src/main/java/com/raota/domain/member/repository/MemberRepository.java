@@ -1,5 +1,6 @@
 package com.raota.domain.member.repository;
 
+import com.raota.domain.member.controller.response.BookmarkSummaryResponse;
 import com.raota.domain.member.controller.response.MyProfileResponse;
 import com.raota.domain.member.controller.response.VisitSummaryResponse;
 import com.raota.domain.member.model.MemberProfile;
@@ -53,4 +54,26 @@ public interface MemberRepository extends JpaRepository<MemberProfile,Long> {
             @Param("memberId") Long memberId,
             Pageable pageable
     );
+
+    @Query(value = """
+        select new com.raota.domain.member.controller.response.BookmarkSummaryResponse(
+            r.id,
+            r.name,
+            r.imageUrl,
+            concat(r.address.city, concat(' ', r.address.district)),
+            b.markingAt
+        )
+        from MemberProfile m
+        join Bookmark b on b.memberProfile = m
+        join b.ramenShop r
+        where m.id = :memberId
+        order by b.markingAt desc
+        """,
+            countQuery = """
+        select count(b)
+        from MemberProfile m
+        join Bookmark b on b.memberProfile = m
+        where m.id = :memberId
+        """)
+    Page<BookmarkSummaryResponse> findMyBookmarks(@Param("memberId") Long memberId, Pageable pageable);
 }

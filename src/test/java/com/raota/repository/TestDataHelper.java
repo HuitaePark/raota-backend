@@ -1,7 +1,9 @@
 package com.raota.repository;
 
+import com.raota.domain.member.model.Bookmark;
 import com.raota.domain.member.model.MemberActivityStats;
 import com.raota.domain.member.model.MemberProfile;
+import com.raota.domain.member.repository.BookmarkRepository;
 import com.raota.domain.member.repository.MemberRepository;
 import com.raota.domain.proofPicture.model.RamenProofPicture;
 import com.raota.domain.proofPicture.repository.RamenProofPictureRepository;
@@ -20,6 +22,8 @@ public class TestDataHelper {
     private RamenProofPictureRepository proofPictureRepository;
     @Autowired
     private RamenShopRepository ramenShopRepository;
+    @Autowired
+    private BookmarkRepository bookmarkRepository;
 
     public MemberProfile createMember(String nickname) {
         MemberProfile member = MemberProfile.builder()
@@ -30,10 +34,10 @@ public class TestDataHelper {
         return memberRepository.save(member);
     }
 
-    public RamenShop createRamenShop(String name) {
+    public RamenShop createRamenShop(String name,Address address) {
         RamenShop shop = RamenShop.builder()
                 .name(name)
-                .address(new Address("서울","마포구","연남동","1234"))
+                .address(address)
                 .build();
         return ramenShopRepository.save(shop);
     }
@@ -48,6 +52,17 @@ public class TestDataHelper {
                 .build();
 
         return proofPictureRepository.save(picture);
+    }
+
+    public Bookmark createBookmark(RamenShop ramenShop, MemberProfile member) {
+        Bookmark bookmark = new Bookmark(
+                null,
+                member,
+                ramenShop,
+                null // markingAt → @CreationTimestamp 가 자동 생성
+        );
+
+        return bookmarkRepository.save(bookmark);
     }
 
 }
