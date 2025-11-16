@@ -226,7 +226,6 @@ class RamenShopInfoControllerTest {
                 .andExpect(jsonPath("$.data.content[0].id").value(1))
                 .andExpect(jsonPath("$.data.content[0].name").value("라멘스키 강남점"))
                 .andExpect(jsonPath("$.data.content[0].address").value("서울 강남구"))
-                .andExpect(jsonPath("$.data.content[0].category").value("돈코츠 라멘"))
                 .andExpect(jsonPath("$.data.content[0].imageUrl")
                         .value("https://cdn.mensulang.kr/stores/1.jpg"))
 

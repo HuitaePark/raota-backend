@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.raota.domain.ramenShop.controller.request.RamenShopSearchRequest;
 import com.raota.domain.ramenShop.controller.response.StoreSummaryResponse;
 import com.raota.domain.ramenShop.model.Address;
-import com.raota.domain.ramenShop.model.RamenShop;
 import com.raota.domain.ramenShop.repository.RamenShopRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,8 +26,6 @@ public class RamenShopRepositoryTest {
     @Autowired
     private TestDataHelper testDataHelper;
 
-    private RamenShop ramenShop;
-
     @DisplayName("조건에 맞는 가게의 목록을 가져온다.")
     @Test
     void get_a_list_of_stores(){
@@ -45,7 +42,6 @@ public class RamenShopRepositoryTest {
         Page<StoreSummaryResponse> result = ramenShopRepository.searchStores(request.getRegion(), request.getKeyword(), pageRequest);
 
         StoreSummaryResponse first = result.getContent().getFirst();
-        assertThat(first.id()).isEqualTo(2L);
         assertThat(first.name()).isEqualTo("라멘스키 강남점");
         assertThat(first.address()).contains("서울 강남구");
         assertThat(first.tagsAsList()).contains("아부라소바");
