@@ -36,7 +36,7 @@ public class RamenProofPictureRepositoryTest {
     @BeforeEach
     void setUp(){
         memberProfile = testDataHelper.createMember("테스트");
-        ramenShop = testDataHelper.createRamenShop("테스트 라멘샵",new Address("서울시","영등포구","",""));
+        ramenShop = testDataHelper.createRamenShop("테스트 라멘샵",new Address("서울시","영등포구","망원동","123"));
     }
 
     @DisplayName("이미지 url이 비어있으면 에러가 발생한다.")

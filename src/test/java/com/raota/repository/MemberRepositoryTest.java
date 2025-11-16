@@ -114,8 +114,7 @@ public class MemberRepositoryTest {
 
         PageRequest pageRequest = PageRequest.of(0, 10);
 
-        Page<BookmarkSummaryResponse> result =
-                memberRepository.findMyBookmarks(member.getId(), pageRequest);
+        Page<BookmarkSummaryResponse> result = memberRepository.findMyBookmarks(member.getId(), pageRequest);
 
         BookmarkSummaryResponse first = result.getContent().getFirst();
 
