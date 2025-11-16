@@ -1,15 +1,18 @@
 package com.raota.domain.ramenShop.model;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 @Entity
 @AllArgsConstructor
@@ -35,8 +38,9 @@ public class RamenShop {
     @Builder.Default
     private ShopStats stats = ShopStats.init();
 
-    @Column(name = "tags")
-    private String tags;
+    @Type(JsonType.class)
+    @Column(name = "tags",columnDefinition = "json")
+    private List<String> tags;
 
     @Column(name = "instagram_url")
     private String instagramUrl;
@@ -49,4 +53,5 @@ public class RamenShop {
 
     @Embedded
     private EventMenus eventMenus;
+
 }

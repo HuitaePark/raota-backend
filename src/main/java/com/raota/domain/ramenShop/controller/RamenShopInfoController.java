@@ -6,7 +6,7 @@ import com.raota.domain.ramenShop.controller.response.RamenShopBasicInfoResponse
 import com.raota.domain.ramenShop.controller.response.VisitCountingResponse;
 import com.raota.domain.ramenShop.controller.response.VotingStatusResponse;
 import com.raota.domain.ramenShop.controller.response.WaitingSpotResponse;
-import com.raota.domain.ramenShop.dto.StoreSummaryResponse;
+import com.raota.domain.ramenShop.controller.response.StoreSummaryResponse;
 import com.raota.domain.ramenShop.service.RamenShopInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

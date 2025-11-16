@@ -10,6 +10,7 @@ import com.raota.domain.proofPicture.repository.RamenProofPictureRepository;
 import com.raota.domain.ramenShop.model.Address;
 import com.raota.domain.ramenShop.model.RamenShop;
 import com.raota.domain.ramenShop.repository.RamenShopRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +39,7 @@ public class TestDataHelper {
         RamenShop shop = RamenShop.builder()
                 .name(name)
                 .address(address)
+                .tags(List.of("돈코츠라멘","아부라소바"))
                 .build();
         return ramenShopRepository.save(shop);
     }

@@ -4,7 +4,7 @@ import com.raota.domain.ramenShop.controller.response.RamenShopBasicInfoResponse
 import com.raota.domain.ramenShop.controller.response.VisitCountingResponse;
 import com.raota.domain.ramenShop.controller.response.VotingStatusResponse;
 import com.raota.domain.ramenShop.controller.response.WaitingSpotResponse;
-import com.raota.domain.ramenShop.dto.StoreSummaryResponse;
+import com.raota.domain.ramenShop.controller.response.StoreSummaryResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

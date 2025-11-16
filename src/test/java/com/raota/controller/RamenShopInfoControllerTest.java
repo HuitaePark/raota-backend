@@ -16,7 +16,7 @@ import com.raota.domain.ramenShop.dto.BusinessHoursDto;
 import com.raota.domain.ramenShop.dto.EventMenuDto;
 import com.raota.domain.ramenShop.dto.NormalMenuDto;
 import com.raota.domain.ramenShop.dto.ShopStatDto;
-import com.raota.domain.ramenShop.dto.StoreSummaryResponse;
+import com.raota.domain.ramenShop.controller.response.StoreSummaryResponse;
 import com.raota.domain.ramenShop.dto.VoteResultsDto;
 import com.raota.domain.ramenShop.dto.WaitingSpotDto;
 import com.raota.domain.ramenShop.service.RamenShopInfoService;
@@ -202,9 +202,9 @@ class RamenShopInfoControllerTest {
     void get_home_info() throws Exception {
 
         var featuredStores = List.of(
-                new StoreSummaryResponse(1L, "라멘스키 강남점", "서울 강남구", "돈코츠 라멘",
+                new StoreSummaryResponse(1L, "라멘스키 강남점", "서울 강남구", List.of("돈코츠라멘"),
                         "https://cdn.mensulang.kr/stores/1.jpg"),
-                new StoreSummaryResponse(2L, "라멘스키 홍대점", "서울 마포구", "돈코츠 라멘",
+                new StoreSummaryResponse(2L, "라멘스키 홍대점", "서울 마포구", List.of("돈코츠라멘"),
                         "https://cdn.mensulang.kr/stores/2.jpg")
         );
 
