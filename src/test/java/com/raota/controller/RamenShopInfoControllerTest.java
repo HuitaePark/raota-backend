@@ -1,5 +1,6 @@
 package com.raota.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -8,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.raota.domain.ramenShop.controller.RamenShopInfoController;
+import com.raota.domain.ramenShop.controller.request.RamenShopSearchRequest;
 import com.raota.domain.ramenShop.controller.response.RamenShopBasicInfoResponse;
 import com.raota.domain.ramenShop.controller.response.VisitCountingResponse;
 import com.raota.domain.ramenShop.controller.response.VotingStatusResponse;
@@ -33,6 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -206,7 +209,7 @@ class RamenShopInfoControllerTest {
         // -----------------------------------------------------------
 
         // 서비스 모킹
-        given(ramenShopInfoService.getRamenShopList(pr)).willReturn(page);
+        given(ramenShopInfoService.getRamenShopList(any(RamenShopSearchRequest.class), any(Pageable.class))).willReturn(page);
 
         mockMvc.perform(get("/ramen-shops")
                         .param("page", "0")

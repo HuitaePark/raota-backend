@@ -1,5 +1,6 @@
 package com.raota.domain.ramenShop.controller;
 
+import com.raota.domain.ramenShop.controller.request.RamenShopSearchRequest;
 import com.raota.global.common.ApiResponse;
 import com.raota.domain.ramenShop.controller.request.VisitCertificationRequest;
 import com.raota.domain.ramenShop.controller.response.RamenShopBasicInfoResponse;
@@ -47,7 +48,7 @@ public class RamenShopInfoController {
     public ResponseEntity<ApiResponse<VotingStatusResponse>> getVoteStatus(
             @PathVariable Long shopId,
             @PathVariable Long menuId) {
-        VotingStatusResponse response = ramenShopInfoService.voteTheMenu(shopId,menuId);
+        VotingStatusResponse response = ramenShopInfoService.voteTheMenu(shopId, menuId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
@@ -65,8 +66,9 @@ public class RamenShopInfoController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<StoreSummaryResponse>>> getShopDetailInfo(
-            @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<StoreSummaryResponse> response = ramenShopInfoService.getRamenShopList(pageable);
+            @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable,
+            RamenShopSearchRequest request) {
+        Page<StoreSummaryResponse> response = ramenShopInfoService.getRamenShopList(request, pageable);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

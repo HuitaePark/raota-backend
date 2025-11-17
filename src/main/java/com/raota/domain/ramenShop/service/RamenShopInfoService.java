@@ -1,5 +1,6 @@
 package com.raota.domain.ramenShop.service;
 
+import com.raota.domain.ramenShop.controller.request.RamenShopSearchRequest;
 import com.raota.domain.ramenShop.controller.response.RamenShopBasicInfoResponse;
 import com.raota.domain.ramenShop.controller.response.VisitCountingResponse;
 import com.raota.domain.ramenShop.controller.response.VotingStatusResponse;
@@ -38,7 +39,7 @@ public class RamenShopInfoService {
         return RamenShopBasicInfoResponse.from(ramenShop);
     }
 
-    public Page<StoreSummaryResponse> getRamenShopList(Pageable pageable) {
-        return null;
+    public Page<StoreSummaryResponse> getRamenShopList(RamenShopSearchRequest request, Pageable pageable) {
+        return ramenShopRepository.searchStores(request.getRegion(), request.getKeyword(), pageable);
     }
 }
