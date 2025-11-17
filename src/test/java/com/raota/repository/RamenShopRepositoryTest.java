@@ -2,10 +2,15 @@ package com.raota.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.raota.domain.member.model.MemberProfile;
+import com.raota.domain.proofPicture.model.RamenProofPicture;
 import com.raota.domain.ramenShop.controller.request.RamenShopSearchRequest;
+import com.raota.domain.ramenShop.controller.response.RamenShopProofPictureResponse;
 import com.raota.domain.ramenShop.controller.response.StoreSummaryResponse;
 import com.raota.domain.ramenShop.model.Address;
+import com.raota.domain.ramenShop.model.RamenShop;
 import com.raota.domain.ramenShop.repository.RamenShopRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +31,17 @@ public class RamenShopRepositoryTest {
     @Autowired
     private TestDataHelper testDataHelper;
 
+    private MemberProfile memberProfile;
+    private MemberProfile memberProfile2;
+    private RamenShop ramenShop;
+
+    @BeforeEach
+    void setUp(){
+        memberProfile = testDataHelper.createMember("테스트");
+        memberProfile2 = testDataHelper.createMember("테스트2");
+        ramenShop = testDataHelper.createRamenShop("테스트 라멘샵",new Address("서울시","마포구","망원동","123"));
+    }
+
     @DisplayName("조건에 맞는 가게의 목록을 가져온다.")
     @Test
     void get_a_list_of_stores(){
@@ -45,5 +61,31 @@ public class RamenShopRepositoryTest {
         assertThat(first.name()).isEqualTo("라멘스키 강남점");
         assertThat(first.address()).contains("서울 강남구");
         assertThat(first.tagsAsList()).contains("아부라소바");
+    }
+
+    @DisplayName("라멘가게의 인증샷들을 불러온다.")
+    @Test
+    void load_the_photos_from(){
+        RamenProofPicture picture1 = testDataHelper.createProofPicture(ramenShop, memberProfile);
+        RamenProofPicture picture2 = testDataHelper.createProofPicture(ramenShop, memberProfile2);
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+        Page<RamenShopProofPictureResponse> result = ramenShopRepository.searchPictures(1L,pageRequest);
+
+        RamenShopProofPictureResponse first = result.getContent().getFirst();
+        RamenShopProofPictureResponse second = result.getContent().get(1);
+
+        assertThat(result.getContent()).hasSize(2);
+
+        assertThat(first.photo_id()).isEqualTo(picture2.getId());
+        assertThat(second.photo_id()).isEqualTo(picture1.getId());
+
+        assertThat(first.image_url()).isEqualTo(picture2.getImageUrl());
+        assertThat(first.uploader_nickname()).isEqualTo(memberProfile2.getNickname());
+        assertThat(first.uploaded_at()).isNotNull();
+
+        assertThat(second.image_url()).isEqualTo(picture1.getImageUrl());
+        assertThat(second.uploader_nickname()).isEqualTo(memberProfile.getNickname());
+        assertThat(second.uploaded_at()).isNotNull();
     }
 }
