@@ -55,4 +55,7 @@ public class EventMenu {
     @Column(name = "image_url", length = 500)
     private String imageUrl;
 
+    public void setShop(RamenShop ramenShop) {
+        this.ramenShop = ramenShop;
+    }
 }

@@ -49,9 +49,20 @@ public class RamenShop {
     private String imageUrl;
 
     @Embedded
-    private NormalMenus normalMenus;
+    @Builder.Default
+    private NormalMenus normalMenus = NormalMenus.init();
 
     @Embedded
-    private EventMenus eventMenus;
+    @Builder.Default
+    private EventMenus eventMenus = EventMenus.init();
 
+    public void addNormalMenu(NormalMenu menu) {
+        normalMenus.add(menu);
+        menu.setShop(this);
+    }
+
+    public void addEventMenu(EventMenu eventMenu){
+        eventMenus.add(eventMenu);
+        eventMenu.setShop(this);
+    }
 }

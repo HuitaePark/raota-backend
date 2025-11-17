@@ -8,6 +8,6 @@ import lombok.Getter;
 public class VoteResultsDto {
     private Long menu_id;
     private String menu_name;
-    private int vote_count;
-    private double percentage;
+    private Long vote_count;
+    private Double percentage;
 }

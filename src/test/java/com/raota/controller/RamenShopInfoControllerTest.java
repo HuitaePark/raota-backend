@@ -84,7 +84,7 @@ class RamenShopInfoControllerTest {
         Long shopId = 1L;
         VotingStatusResponse response = new VotingStatusResponse(
                 620,
-                List.of(new VoteResultsDto(1L, "시오라멘", 410, 66.1)));
+                List.of(new VoteResultsDto(1L, "시오라멘", 410L, 66.1)));
         given(ramenShopInfoService.getVotingStatus(shopId)).willReturn(response);
 
         mockMvc.perform(get("/ramen-shops/{shopId}/votes", shopId)
@@ -105,7 +105,7 @@ class RamenShopInfoControllerTest {
         Long shopId = 1L;
         Long menuId = 1L;
         VotingStatusResponse response = new VotingStatusResponse(620,
-                List.of(new VoteResultsDto(1L, "시오라멘", 410, 66.1)));
+                List.of(new VoteResultsDto(1L, "시오라멘", 410L, 66.1)));
         given(ramenShopInfoService.voteTheMenu(shopId, menuId)).willReturn(response);
 
         mockMvc.perform(post("/ramen-shops/{shopId}/votes/{menuId}", shopId, menuId)

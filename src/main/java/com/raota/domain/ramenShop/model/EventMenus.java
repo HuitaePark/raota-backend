@@ -14,7 +14,11 @@ import lombok.NoArgsConstructor;
 public class EventMenus {
 
     @OneToMany(mappedBy = "ramenShop", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EventMenu> values = new ArrayList<>();
+    private List<EventMenu> values;
+
+    public static EventMenus init() {
+        return new EventMenus(new ArrayList<>());
+    }
 
     public void add(EventMenu eventMenu){
         verifyMenuNameDuplicate(eventMenu.getName());

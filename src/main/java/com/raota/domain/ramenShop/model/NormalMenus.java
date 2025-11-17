@@ -15,7 +15,11 @@ import lombok.NoArgsConstructor;
 public class NormalMenus {
 
     @OneToMany(mappedBy = "ramenShop", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<NormalMenu> values = new ArrayList<>();
+    private List<NormalMenu> values;
+
+    public static NormalMenus init() {
+        return new NormalMenus(new ArrayList<>());
+    }
 
     public void add(NormalMenu normalMenu){
         verifyMenuNameDuplicate(normalMenu.getName());
