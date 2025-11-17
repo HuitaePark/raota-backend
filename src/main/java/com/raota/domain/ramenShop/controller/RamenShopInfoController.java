@@ -38,12 +38,6 @@ public class RamenShopInfoController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
-    @GetMapping("/{shopId}/votes")
-    public ResponseEntity<ApiResponse<VotingStatusResponse>> getVoteStatus(@PathVariable Long shopId) {
-        VotingStatusResponse response = ramenShopInfoService.getVotingStatus(shopId);
-        return ResponseEntity.ok(ApiResponse.success(response));
-    }
-
     @PostMapping("/{shopId}/votes/{menuId}")
     public ResponseEntity<ApiResponse<VotingStatusResponse>> getVoteStatus(
             @PathVariable Long shopId,

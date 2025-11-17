@@ -4,7 +4,7 @@ import com.raota.domain.ramenShop.dto.VoteResultsDto;
 import java.util.List;
 
 public record VotingStatusResponse (
-        int total_votes,
+        long total_votes,
         List<VoteResultsDto> vote_results
 ){
 }

@@ -5,12 +5,17 @@ import com.raota.domain.member.controller.response.BookmarkSummaryResponse;
 import com.raota.domain.member.controller.response.MyProfileResponse;
 import com.raota.domain.member.controller.response.PhotoSummaryResponse;
 import com.raota.domain.member.controller.response.VisitSummaryResponse;
+import com.raota.domain.member.repository.MemberRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class MemberInfoService {
+
+    private final MemberRepository memberRepository;
 
     public MyProfileResponse getMyProfile() {
         return null;
