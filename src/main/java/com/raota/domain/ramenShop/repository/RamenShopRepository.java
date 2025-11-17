@@ -52,4 +52,6 @@ public interface RamenShopRepository extends JpaRepository<RamenShop, Long> {
         where p.ramenShop.id = :shopId
         """)
     Page<RamenShopProofPictureResponse> searchPictures(@Param("shopId") Long shopId,Pageable pageable);
+
+
 }

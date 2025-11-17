@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 public class MenuTest {
 
+
     @DisplayName("중복된 메뉴이름이 있다면 에러가 발생한다.")
     @Test
     void duplicate_menu_names() {
@@ -28,7 +29,8 @@ public class MenuTest {
                 .imageUrl("https://cdn.men.com/salt.jpg")
                 .build();
 
-        NormalMenus normalMenus = new NormalMenus();
+        NormalMenus normalMenus = NormalMenus.init();
+
         normalMenus.add(menu);
         assertThatThrownBy(() -> normalMenus.add(menu2))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -55,7 +57,7 @@ public class MenuTest {
                 .description("특별한 맛2!")
                 .build();
 
-        EventMenus eventMenus = new EventMenus();
+        EventMenus eventMenus = EventMenus.init();
 
         eventMenus.add(menu);
         assertThatThrownBy(() -> eventMenus.add(menu2))

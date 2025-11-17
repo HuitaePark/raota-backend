@@ -70,7 +70,7 @@ public class RamenShopRepositoryTest {
         RamenProofPicture picture2 = testDataHelper.createProofPicture(ramenShop, memberProfile2);
 
         PageRequest pageRequest = PageRequest.of(0, 2);
-        Page<RamenShopProofPictureResponse> result = ramenShopRepository.searchPictures(1L,pageRequest);
+        Page<RamenShopProofPictureResponse> result = ramenShopRepository.searchPictures(ramenShop.getId(), pageRequest);
 
         RamenShopProofPictureResponse first = result.getContent().getFirst();
         RamenShopProofPictureResponse second = result.getContent().get(1);

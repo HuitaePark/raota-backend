@@ -98,7 +98,7 @@ public class VoteRepositoryTest {
         em.clear();
 
         // when
-        List<VoteResultsDto> results = voteRepository.findMenuVoteCounts(1L);
+        List<VoteResultsDto> results = voteRepository.findMenuVoteCounts(shop.getId());
 
         // then
         assertThat(results).hasSize(4);

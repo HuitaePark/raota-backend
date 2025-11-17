@@ -1,6 +1,7 @@
 package com.raota.domain.ramenShop.model;
 
 
+import com.raota.domain.ramenShop.dto.NormalMenuDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
@@ -19,6 +20,10 @@ public class NormalMenus {
 
     public static NormalMenus init() {
         return new NormalMenus(new ArrayList<>());
+    }
+
+    public List<NormalMenuDto> getNormalMenusInfo(){
+        return values.stream().map(NormalMenuDto::from).toList();
     }
 
     public void add(NormalMenu normalMenu){

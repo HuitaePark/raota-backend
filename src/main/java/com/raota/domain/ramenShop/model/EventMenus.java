@@ -1,5 +1,6 @@
 package com.raota.domain.ramenShop.model;
 
+import com.raota.domain.ramenShop.dto.EventMenuDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
@@ -18,6 +19,10 @@ public class EventMenus {
 
     public static EventMenus init() {
         return new EventMenus(new ArrayList<>());
+    }
+
+    public List<EventMenuDto> getEventMenusInfo(){
+        return values.stream().map(EventMenuDto::from).toList();
     }
 
     public void add(EventMenu eventMenu){

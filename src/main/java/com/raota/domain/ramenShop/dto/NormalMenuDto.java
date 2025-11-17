@@ -1,5 +1,6 @@
 package com.raota.domain.ramenShop.dto;
 
+import com.raota.domain.ramenShop.model.NormalMenu;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,4 +12,14 @@ public class NormalMenuDto {
     private int price;
     private boolean signature;
     private String image_url;
+
+    public static NormalMenuDto from(NormalMenu normalMenu){
+        return new NormalMenuDto(
+                normalMenu.getId(),
+                normalMenu.getName(),
+                normalMenu.getPrice(),
+                normalMenu.getIsSignature(),
+                normalMenu.getImageUrl()
+        );
+    }
 }

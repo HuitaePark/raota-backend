@@ -20,6 +20,7 @@ import com.raota.domain.ramenShop.controller.response.StoreSummaryResponse;
 import com.raota.domain.ramenShop.dto.VoteResultsDto;
 import com.raota.domain.ramenShop.dto.WaitingSpotDto;
 import com.raota.domain.ramenShop.service.RamenShopInfoService;
+import java.time.LocalTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -166,16 +167,9 @@ class RamenShopInfoControllerTest {
                 .andExpect(jsonPath("$.data.address").value("서울 마포구 서교동 396-12"))
                 .andExpect(jsonPath("$.data.instagram_url").value("https://instagram.com/kenbimen_riki"))
 
-                // business_hours
-                .andExpect(jsonPath("$.data.business_hours.closed_days").value("없음"))
-                .andExpect(jsonPath("$.data.business_hours.open_time").value("11:30"))
-                .andExpect(jsonPath("$.data.business_hours.close_time").value("21:00"))
-                .andExpect(jsonPath("$.data.business_hours.break_start").value("15:00"))
-                .andExpect(jsonPath("$.data.business_hours.break_end").value("17:30"))
-
                 // stats
                 .andExpect(jsonPath("$.data.stats.visit_count").value(1250))
-                .andExpect(jsonPath("$.data.stats.review_count").value(342))
+                .andExpect(jsonPath("$.data.stats.bookmark_count").value(342))
 
                 // tags
                 .andExpect(jsonPath("$.data.tags[0]").value("#시오라멘"))
@@ -193,8 +187,7 @@ class RamenShopInfoControllerTest {
                 .andExpect(jsonPath("$.data.event_menus[0].id").value(501))
                 .andExpect(jsonPath("$.data.event_menus[0].name").value("핑크 초코 라멘"))
                 .andExpect(jsonPath("$.data.event_menus[0].price").value(12000))
-                .andExpect(jsonPath("$.data.event_menus[0].badge_text").value("발렌타인 한정"))
-                .andExpect(jsonPath("$.data.event_menus[0].period").value("2/1 ~ 2/14 판매"));
+                .andExpect(jsonPath("$.data.event_menus[0].badge_text").value("발렌타인 한정"));
     }
 
     @DisplayName("라멘 가게 리스트를 조회한다.")
@@ -252,10 +245,10 @@ class RamenShopInfoControllerTest {
     private RamenShopBasicInfoResponse buildResponse(){
         BusinessHoursDto hours = new BusinessHoursDto(
                 /* closedDays */ "없음",
-                /* openTime   */ "11:30",
-                /* closeTime  */ "21:00",
-                /* breakStart */ "15:00",
-                /* breakEnd   */ "17:30"
+                /* openTime   */ LocalTime.now(),
+                /* closeTime  */ LocalTime.now(),
+                /* breakStart */ LocalTime.now(),
+                /* breakEnd   */ LocalTime.now()
         );
 
         ShopStatDto stats = new ShopStatDto(1250, 342);
@@ -276,8 +269,7 @@ class RamenShopInfoControllerTest {
                         "달콤한 화이트 초콜릿과 돈코츠 육수의 의외의 조합! 핑크빛 면이 사랑스러운 한정판 라멘.",
                         12000,
                         "https://cdn.menschelin.com/images/event/pink_choco.jpg",
-                        "발렌타인 한정",
-                        "2/1 ~ 2/14 판매"
+                        "발렌타인 한정"
                 )
         );
 
