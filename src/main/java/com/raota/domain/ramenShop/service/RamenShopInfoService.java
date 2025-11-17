@@ -35,10 +35,7 @@ public class RamenShopInfoService {
 
     public RamenShopBasicInfoResponse getShopDetailInfo(Long shopId) {
         RamenShop ramenShop = ramenShopRepository.findById(shopId).orElseThrow(()-> new IllegalArgumentException("없는 라멘가게 입니다."));
-
-
-
-        return null;
+        return RamenShopBasicInfoResponse.from(ramenShop);
     }
 
     public Page<StoreSummaryResponse> getRamenShopList(Pageable pageable) {
