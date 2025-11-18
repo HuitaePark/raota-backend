@@ -1,4 +1,4 @@
-package com.raota.domain.member;
+package com.raota.unit.domain.member;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,4 +1,4 @@
-package com.raota.controller;
+package com.raota.unit.controller;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;

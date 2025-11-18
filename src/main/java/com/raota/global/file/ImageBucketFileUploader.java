@@ -1,12 +1,10 @@
 package com.raota.global.file;
 
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-@Component
-@Profile({"local", "test"})
-public class LocalFileUploader implements FileUploader{
+@Profile("bucket")
+public class ImageBucketFileUploader implements FileUploader{
     @Override
     public String upload(MultipartFile file, String dirName) {
         return "";

@@ -37,7 +37,12 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.assertj:assertj-core:3.27.6'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    //json 칼럼용
     implementation "com.vladmihalcea:hibernate-types-60:2.21.1"
+    //테스트 컨테이너
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:mysql'
 }
 
 tasks.named('test') {

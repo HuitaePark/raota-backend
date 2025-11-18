@@ -1,4 +1,4 @@
-package com.raota.controller;
+package com.raota.unit.controller;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
