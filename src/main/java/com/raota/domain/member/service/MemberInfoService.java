@@ -6,6 +6,7 @@ import com.raota.domain.member.controller.response.PhotoSummaryResponse;
 import com.raota.domain.member.controller.response.VisitSummaryResponse;
 import com.raota.domain.member.model.MemberProfile;
 import com.raota.domain.member.repository.MemberRepository;
+import com.raota.domain.proofPicture.repository.RamenProofPictureRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class MemberInfoService {
 
     private final MemberRepository memberRepository;
+    private final RamenProofPictureRepository pictureRepository;
 
     public MyProfileResponse getMyProfile(Long memberId) {
         return memberRepository.findMemberDetailInfo(memberId);
@@ -34,8 +36,8 @@ public class MemberInfoService {
         return null;
     }
 
-    public Page<BookmarkSummaryResponse> getMyBookmarks(Pageable pageable) {
-        return null;
+    public Page<BookmarkSummaryResponse> getMyBookmarks(Long memberId,Pageable pageable) {
+        return memberRepository.findMyBookmarks(memberId,pageable);
     }
 
     public Page<VisitSummaryResponse> getMyVisits(Pageable pageable) {

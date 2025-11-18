@@ -179,7 +179,7 @@ public class MemberInfoControllerTest {
         var pageable = PageRequest.of(0, 20);
         var page = new PageImpl<>(list, pageable, 2);
 
-        given(memberInfoService.getMyBookmarks(pageable)).willReturn(page);
+        given(memberInfoService.getMyBookmarks(null,pageable)).willReturn(page);
 
         mockMvc.perform(get("/users/me/bookmarks")
                         .param("page", "0")

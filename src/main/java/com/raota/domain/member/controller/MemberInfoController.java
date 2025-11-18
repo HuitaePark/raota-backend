@@ -26,7 +26,7 @@ public class MemberInfoController {
 
     @GetMapping("/me/profile")
     public ResponseEntity<ApiResponse<MyProfileResponse>> getUserProfile(
-            @LoginMember Long memberId){
+            @LoginMember Long memberId) {
         return ResponseEntity.ok(ApiResponse.success(memberInfoService.getMyProfile(memberId)));
     }
 
@@ -41,14 +41,16 @@ public class MemberInfoController {
     }
 
     @GetMapping("/me/photos")
-    public ResponseEntity<ApiResponse<Page<PhotoSummaryResponse>>> getUserPhoto(Pageable pageable){
+    public ResponseEntity<ApiResponse<Page<PhotoSummaryResponse>>> getUserPhoto(Pageable pageable) {
         Page<PhotoSummaryResponse> photos = memberInfoService.getMyPhotoList(pageable);
         return ResponseEntity.ok(ApiResponse.success(photos));
     }
 
     @GetMapping("/me/bookmarks")
-    public ResponseEntity<ApiResponse<Page<BookmarkSummaryResponse>>> getMyBookmarks(Pageable pageable) {
-        Page<BookmarkSummaryResponse> page = memberInfoService.getMyBookmarks(pageable);
+    public ResponseEntity<ApiResponse<Page<BookmarkSummaryResponse>>> getMyBookmarks(
+            @LoginMember Long memberId,
+            Pageable pageable) {
+        Page<BookmarkSummaryResponse> page = memberInfoService.getMyBookmarks(memberId,pageable);
         return ResponseEntity.ok(ApiResponse.success(page));
     }
 
