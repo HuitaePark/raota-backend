@@ -16,10 +16,11 @@ import org.springframework.stereotype.Service;
 public class RamenShopInfoService {
     private final RamenShopRepository ramenShopRepository;
 
+    @Deprecated
     public VisitCountingResponse addVisitCount(Long shopId, Long userId) {
         return null;
     }
-
+    @Deprecated
     public WaitingSpotResponse getWaitingSpot(Long shopId) {
         return null;
     }

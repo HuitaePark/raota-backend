@@ -3,6 +3,7 @@ package com.raota.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -32,7 +33,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -164,7 +164,9 @@ class RamenShopInfoControllerTest {
         // -----------------------------------------------------------
 
         // 서비스 모킹
-        given(ramenShopInfoService.getRamenShopList(any(String.class), any(String.class), any(Pageable.class))).willReturn(page);
+        doReturn(page)
+                .when(ramenShopInfoService)
+                .getRamenShopList(any(), any(), any());
 
         mockMvc.perform(get("/ramen-shops")
                         .param("page", "0")
