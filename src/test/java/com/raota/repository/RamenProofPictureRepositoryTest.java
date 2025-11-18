@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.raota.domain.member.model.MemberProfile;
 import com.raota.domain.proofPicture.controller.response.ProofPictureInfoResponse;
+import com.raota.domain.proofPicture.controller.response.RamenShopProofPictureResponse;
 import com.raota.domain.proofPicture.model.RamenProofPicture;
 import com.raota.domain.proofPicture.repository.RamenProofPictureRepository;
 import com.raota.domain.ramenShop.model.Address;
@@ -31,11 +32,13 @@ public class RamenProofPictureRepositoryTest {
     private TestDataHelper testDataHelper;
 
     private MemberProfile memberProfile;
+    private MemberProfile memberProfile2;
     private RamenShop ramenShop;
 
     @BeforeEach
     void setUp(){
         memberProfile = testDataHelper.createMember("테스트");
+        memberProfile2 = testDataHelper.createMember("테스트2");
         ramenShop = testDataHelper.createRamenShop("테스트 라멘샵",new Address("서울시","영등포구","망원동","123"));
     }
 
@@ -76,4 +79,29 @@ public class RamenProofPictureRepositoryTest {
         assertThat(result.hasNext()).isFalse();
     }
 
+    @DisplayName("라멘가게의 인증샷들을 불러온다.")
+    @Test
+    void load_the_photos_from(){
+        RamenProofPicture picture1 = testDataHelper.createProofPicture(ramenShop, memberProfile);
+        RamenProofPicture picture2 = testDataHelper.createProofPicture(ramenShop, memberProfile2);
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+        Page<RamenShopProofPictureResponse> result = ramenProofPictureRepository.searchPictures(ramenShop.getId(), pageRequest);
+
+        RamenShopProofPictureResponse first = result.getContent().getFirst();
+        RamenShopProofPictureResponse second = result.getContent().get(1);
+
+        assertThat(result.getContent()).hasSize(2);
+
+        assertThat(first.photo_id()).isEqualTo(picture2.getId());
+        assertThat(second.photo_id()).isEqualTo(picture1.getId());
+
+        assertThat(first.image_url()).isEqualTo(picture2.getImageUrl());
+        assertThat(first.uploader_nickname()).isEqualTo(memberProfile2.getNickname());
+        assertThat(first.uploaded_at()).isNotNull();
+
+        assertThat(second.image_url()).isEqualTo(picture1.getImageUrl());
+        assertThat(second.uploader_nickname()).isEqualTo(memberProfile.getNickname());
+        assertThat(second.uploaded_at()).isNotNull();
+    }
 }

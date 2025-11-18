@@ -1,4 +1,4 @@
-package com.raota.domain.ramenShop.controller.response;
+package com.raota.domain.proofPicture.controller.response;
 
 import java.time.LocalDateTime;
 

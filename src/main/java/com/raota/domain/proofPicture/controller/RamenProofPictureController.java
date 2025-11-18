@@ -1,6 +1,7 @@
 package com.raota.domain.proofPicture.controller;
 
 import com.raota.domain.proofPicture.controller.response.ProofPictureInfoResponse;
+import com.raota.domain.proofPicture.controller.response.RamenShopProofPictureResponse;
 import com.raota.global.common.ApiResponse;
 import com.raota.domain.proofPicture.service.RamenProofPictureService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class RamenProofPictureController {
     }
 
     @GetMapping("/{shopId}")
-    public ResponseEntity<ApiResponse<Page<ProofPictureInfoResponse>>> getProofPicture(
+    public ResponseEntity<ApiResponse<Page<RamenShopProofPictureResponse>>> getProofPicture(
             @PathVariable Long shopId,
             @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(ApiResponse.success(proofPictureService.findProofPicture(shopId,pageable)));

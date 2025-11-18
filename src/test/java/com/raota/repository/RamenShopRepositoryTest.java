@@ -3,9 +3,7 @@ package com.raota.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.raota.domain.member.model.MemberProfile;
-import com.raota.domain.proofPicture.model.RamenProofPicture;
 import com.raota.domain.ramenShop.controller.request.RamenShopSearchRequest;
-import com.raota.domain.ramenShop.controller.response.RamenShopProofPictureResponse;
 import com.raota.domain.ramenShop.controller.response.StoreSummaryResponse;
 import com.raota.domain.ramenShop.model.Address;
 import com.raota.domain.ramenShop.model.RamenShop;
@@ -63,29 +61,4 @@ public class RamenShopRepositoryTest {
         assertThat(first.tagsAsList()).contains("아부라소바");
     }
 
-    @DisplayName("라멘가게의 인증샷들을 불러온다.")
-    @Test
-    void load_the_photos_from(){
-        RamenProofPicture picture1 = testDataHelper.createProofPicture(ramenShop, memberProfile);
-        RamenProofPicture picture2 = testDataHelper.createProofPicture(ramenShop, memberProfile2);
-
-        PageRequest pageRequest = PageRequest.of(0, 2);
-        Page<RamenShopProofPictureResponse> result = ramenShopRepository.searchPictures(ramenShop.getId(), pageRequest);
-
-        RamenShopProofPictureResponse first = result.getContent().getFirst();
-        RamenShopProofPictureResponse second = result.getContent().get(1);
-
-        assertThat(result.getContent()).hasSize(2);
-
-        assertThat(first.photo_id()).isEqualTo(picture2.getId());
-        assertThat(second.photo_id()).isEqualTo(picture1.getId());
-
-        assertThat(first.image_url()).isEqualTo(picture2.getImageUrl());
-        assertThat(first.uploader_nickname()).isEqualTo(memberProfile2.getNickname());
-        assertThat(first.uploaded_at()).isNotNull();
-
-        assertThat(second.image_url()).isEqualTo(picture1.getImageUrl());
-        assertThat(second.uploader_nickname()).isEqualTo(memberProfile.getNickname());
-        assertThat(second.uploaded_at()).isNotNull();
-    }
 }

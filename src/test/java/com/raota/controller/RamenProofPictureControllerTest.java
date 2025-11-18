@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.raota.domain.proofPicture.controller.RamenProofPictureController;
 import com.raota.domain.proofPicture.controller.response.ProofPictureInfoResponse;
+import com.raota.domain.proofPicture.controller.response.RamenShopProofPictureResponse;
 import com.raota.domain.proofPicture.service.RamenProofPictureService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -75,13 +76,13 @@ class RamenProofPictureControllerTest {
         long shopId = 1L;
 
         // 콘텐츠 더미
-        ProofPictureInfoResponse r1 = new ProofPictureInfoResponse(
+        RamenShopProofPictureResponse r1 = new RamenShopProofPictureResponse(
                 702L,
                 "https://cdn.menschelin.com/images/user/photo/702.jpg",
                 "방금먹음",
                 LocalDateTime.now()
         );
-        ProofPictureInfoResponse r2 = new ProofPictureInfoResponse(
+        RamenShopProofPictureResponse r2 = new RamenShopProofPictureResponse(
                 703L,
                 "https://cdn.menschelin.com/images/user/photo/703.jpg",
                 "또먹음",
@@ -89,7 +90,7 @@ class RamenProofPictureControllerTest {
         );
 
         PageRequest pr = PageRequest.of(0, 2);
-        Page<ProofPictureInfoResponse> page = new PageImpl<>(List.of(r1, r2), pr, 5);
+        Page<RamenShopProofPictureResponse> page = new PageImpl<>(List.of(r1, r2), pr, 5);
 
         given(service.findProofPicture(eq(shopId), eq(pr))).willReturn(page);
 

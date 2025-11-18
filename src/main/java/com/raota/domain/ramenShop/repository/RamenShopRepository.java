@@ -1,6 +1,5 @@
 package com.raota.domain.ramenShop.repository;
 
-import com.raota.domain.ramenShop.controller.response.RamenShopProofPictureResponse;
 import com.raota.domain.ramenShop.controller.response.StoreSummaryResponse;
 import com.raota.domain.ramenShop.model.RamenShop;
 import org.springframework.data.domain.Page;
@@ -34,24 +33,4 @@ public interface RamenShopRepository extends JpaRepository<RamenShop, Long> {
     Page<StoreSummaryResponse> searchStores(@Param("region") String region,
                                             @Param("keyword") String keyword,
                                             Pageable pageable);
-
-    @Query(value = """
-        select new com.raota.domain.ramenShop.controller.response.RamenShopProofPictureResponse(
-            p.id,
-            p.imageUrl,
-            p.memberProfile.nickname,
-            p.uploadAt
-        )
-        from RamenProofPicture p
-        where p.ramenShop.id = :shopId
-        order by p.uploadAt desc
-        """,
-            countQuery = """
-        select count(p)
-        from RamenProofPicture p
-        where p.ramenShop.id = :shopId
-        """)
-    Page<RamenShopProofPictureResponse> searchPictures(@Param("shopId") Long shopId,Pageable pageable);
-
-
 }

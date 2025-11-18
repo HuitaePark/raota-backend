@@ -2,6 +2,7 @@ package com.raota.domain.proofPicture.repository;
 
 import com.raota.domain.proofPicture.controller.response.ProofPictureInfoResponse;
 import com.raota.domain.proofPicture.model.RamenProofPicture;
+import com.raota.domain.proofPicture.controller.response.RamenShopProofPictureResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,4 +30,22 @@ public interface RamenProofPictureRepository extends JpaRepository<RamenProofPic
                     """
     )
     Page<ProofPictureInfoResponse> findMemberUploadPhoto(@Param("memberId") Long memberId, Pageable pageable);
+
+    @Query(value = """
+        select new com.raota.domain.proofPicture.controller.response.RamenShopProofPictureResponse(
+            p.id,
+            p.imageUrl,
+            p.memberProfile.nickname,
+            p.uploadAt
+        )
+        from RamenProofPicture p
+        where p.ramenShop.id = :shopId
+        order by p.uploadAt desc
+        """,
+            countQuery = """
+        select count(p)
+        from RamenProofPicture p
+        where p.ramenShop.id = :shopId
+        """)
+    Page<RamenShopProofPictureResponse> searchPictures(@Param("shopId") Long shopId, Pageable pageable);
 }
