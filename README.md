@@ -116,7 +116,6 @@
 | 인증샷 | `PhotoProof` | `ImageUrl`, `UploadedAt` | `PhotoProofRepository`     |
 | 북마크 | `Bookmark` | `BookmarkedAt` | `UserRepository` 내부 관리     |
 | 투표 | `Vote`, `VoteItem` | `VoteCount` | `VoteRepository`           |
-| 지역 | `Region` | `RegionCode`, `RegionName` | `RamenShopRepository` 내부관리 |
 
 ---
 
