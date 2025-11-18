@@ -1,10 +1,12 @@
 package com.raota.domain.member.controller.response;
 
+import java.time.LocalDateTime;
+
 public record PhotoSummaryResponse(
         Long photo_id,
         String image_url,
         Long restaurant_id,
         String restaurant_name,
-        String uploaded_at
+        LocalDateTime uploaded_at
 ) {
 }

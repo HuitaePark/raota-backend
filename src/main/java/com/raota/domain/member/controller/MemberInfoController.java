@@ -41,8 +41,10 @@ public class MemberInfoController {
     }
 
     @GetMapping("/me/photos")
-    public ResponseEntity<ApiResponse<Page<PhotoSummaryResponse>>> getUserPhoto(Pageable pageable) {
-        Page<PhotoSummaryResponse> photos = memberInfoService.getMyPhotoList(pageable);
+    public ResponseEntity<ApiResponse<Page<PhotoSummaryResponse>>> getUserPhoto(
+            @LoginMember Long memberId,
+            Pageable pageable) {
+        Page<PhotoSummaryResponse> photos = memberInfoService.getMyPhotoList(memberId,pageable);
         return ResponseEntity.ok(ApiResponse.success(photos));
     }
 

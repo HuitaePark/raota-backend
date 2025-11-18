@@ -126,21 +126,21 @@ public class MemberInfoControllerTest {
                         "https://cdn.menschelin.com/images/user/photo/801.jpg",
                         101L,
                         "켄비멘리키",
-                        "2025-10-28T14:30:00"
+                        LocalDateTime.now()
                 ),
                 new PhotoSummaryResponse(
                         802L,
                         "https://cdn.menschelin.com/images/user/photo/802.jpg",
                         102L,
                         "라멘 스타일 스타일",
-                        "2025-10-27T19:15:12"
+                        LocalDateTime.now()
                 )
         );
 
         PageRequest pageable = PageRequest.of(0, 20);
         Page<PhotoSummaryResponse> page = new PageImpl<>(photos, pageable, 4);
 
-        given(memberInfoService.getMyPhotoList(pageable)).willReturn(page);
+        given(memberInfoService.getMyPhotoList(null,pageable)).willReturn(page);
 
         mockMvc.perform(get("/users/me/photos")
                         .param("page", "0")

@@ -32,8 +32,8 @@ public class MemberInfoService {
         return getMyProfile(memberId);
     }
 
-    public Page<PhotoSummaryResponse> getMyPhotoList(Pageable pageable){
-        return null;
+    public Page<PhotoSummaryResponse> getMyPhotoList(Long memberId,Pageable pageable){
+        return memberRepository.findMyPhotos(memberId,pageable);
     }
 
     public Page<BookmarkSummaryResponse> getMyBookmarks(Long memberId,Pageable pageable) {
