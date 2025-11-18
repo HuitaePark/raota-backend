@@ -1,9 +1,7 @@
 package com.raota.domain.ramenShop.service;
 
-import com.raota.domain.ramenShop.controller.request.RamenShopSearchRequest;
 import com.raota.domain.ramenShop.controller.response.RamenShopBasicInfoResponse;
 import com.raota.domain.ramenShop.controller.response.VisitCountingResponse;
-import com.raota.domain.ramenShop.controller.response.VotingStatusResponse;
 import com.raota.domain.ramenShop.controller.response.WaitingSpotResponse;
 import com.raota.domain.ramenShop.controller.response.StoreSummaryResponse;
 import com.raota.domain.ramenShop.model.RamenShop;
@@ -19,14 +17,6 @@ public class RamenShopInfoService {
     private final RamenShopRepository ramenShopRepository;
 
     public VisitCountingResponse addVisitCount(Long shopId, Long userId) {
-        return null;
-    }
-
-    public VotingStatusResponse getVotingStatus(Long shopId) {
-        return null;
-    }
-
-    public VotingStatusResponse voteTheMenu(Long shopId, Long menuId) {
         return null;
     }
 

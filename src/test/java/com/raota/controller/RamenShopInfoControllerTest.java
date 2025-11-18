@@ -9,17 +9,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.raota.domain.ramenShop.controller.RamenShopInfoController;
-import com.raota.domain.ramenShop.controller.request.RamenShopSearchRequest;
 import com.raota.domain.ramenShop.controller.response.RamenShopBasicInfoResponse;
 import com.raota.domain.ramenShop.controller.response.VisitCountingResponse;
-import com.raota.domain.ramenShop.controller.response.VotingStatusResponse;
 import com.raota.domain.ramenShop.controller.response.WaitingSpotResponse;
 import com.raota.domain.ramenShop.dto.BusinessHoursDto;
 import com.raota.domain.ramenShop.dto.EventMenuDto;
 import com.raota.domain.ramenShop.dto.NormalMenuDto;
 import com.raota.domain.ramenShop.dto.ShopStatDto;
 import com.raota.domain.ramenShop.controller.response.StoreSummaryResponse;
-import com.raota.domain.ramenShop.dto.VoteResultsDto;
 import com.raota.domain.ramenShop.dto.WaitingSpotDto;
 import com.raota.domain.ramenShop.service.RamenShopInfoService;
 import java.time.LocalTime;
@@ -80,27 +77,6 @@ class RamenShopInfoControllerTest {
                 .andExpect(jsonPath("$.data.user_id").value(123))
                 .andExpect(jsonPath("$.data.new_visit_count").value(1251))
                 .andExpect(jsonPath("$.data.message").value("방문이 인증되었습니다."));
-    }
-
-    @DisplayName("투표 후 바뀐 투표 현황을 확인한다.")
-    @Test
-    void view_voting_status_after_vote() throws Exception {
-        Long shopId = 1L;
-        Long menuId = 1L;
-        VotingStatusResponse response = new VotingStatusResponse(620,
-                List.of(new VoteResultsDto(1L, "시오라멘", 410L, 66.1)));
-        given(ramenShopInfoService.voteTheMenu(shopId, menuId)).willReturn(response);
-
-        mockMvc.perform(post("/ramen-shops/{shopId}/votes/{menuId}", shopId, menuId)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value("SUCCESS"))
-                .andExpect(jsonPath("$.data.total_votes").value(620))
-                // 배열 값 확인
-                .andExpect(jsonPath("$.data.vote_results[0].menu_id").value(1))
-                .andExpect(jsonPath("$.data.vote_results[0].menu_name").value("시오라멘"))
-                .andExpect(jsonPath("$.data.vote_results[0].vote_count").value(410))
-                .andExpect(jsonPath("$.data.vote_results[0].percentage").value(66.1));
     }
 
     @DisplayName("주변 대기장소 목록을 조회한다.")
@@ -188,7 +164,7 @@ class RamenShopInfoControllerTest {
         // -----------------------------------------------------------
 
         // 서비스 모킹
-        given(ramenShopInfoService.getRamenShopList(any(RamenShopSearchRequest.class), any(Pageable.class))).willReturn(page);
+        given(ramenShopInfoService.getRamenShopList(any(String.class), any(String.class), any(Pageable.class))).willReturn(page);
 
         mockMvc.perform(get("/ramen-shops")
                         .param("page", "0")

@@ -5,7 +5,6 @@ import com.raota.global.common.ApiResponse;
 import com.raota.domain.ramenShop.controller.request.VisitCertificationRequest;
 import com.raota.domain.ramenShop.controller.response.RamenShopBasicInfoResponse;
 import com.raota.domain.ramenShop.controller.response.VisitCountingResponse;
-import com.raota.domain.ramenShop.controller.response.VotingStatusResponse;
 import com.raota.domain.ramenShop.controller.response.WaitingSpotResponse;
 import com.raota.domain.ramenShop.controller.response.StoreSummaryResponse;
 import com.raota.domain.ramenShop.service.RamenShopInfoService;
@@ -35,14 +34,6 @@ public class RamenShopInfoController {
             @RequestBody VisitCertificationRequest request
     ) {
         VisitCountingResponse response = ramenShopInfoService.addVisitCount(shopId, request.getUserId());
-        return ResponseEntity.ok(ApiResponse.success(response));
-    }
-
-    @PostMapping("/{shopId}/votes/{menuId}")
-    public ResponseEntity<ApiResponse<VotingStatusResponse>> getVoteStatus(
-            @PathVariable Long shopId,
-            @PathVariable Long menuId) {
-        VotingStatusResponse response = ramenShopInfoService.voteTheMenu(shopId, menuId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
