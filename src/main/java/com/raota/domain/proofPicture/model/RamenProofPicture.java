@@ -39,8 +39,6 @@ public class RamenProofPicture {
 
     private String imageName;
 
-    private String description;
-
     @Column(nullable = false)
     private String imageUrl;
 

@@ -50,7 +50,6 @@ public class TestDataHelper {
                 .memberProfile(member)
                 .imageName("test-image.png")
                 .imageUrl("http://test.com/image.png")
-                .description("test description")
                 .build();
 
         return proofPictureRepository.save(picture);

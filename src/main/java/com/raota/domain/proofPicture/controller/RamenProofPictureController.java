@@ -2,6 +2,7 @@ package com.raota.domain.proofPicture.controller;
 
 import com.raota.domain.proofPicture.controller.response.ProofPictureInfoResponse;
 import com.raota.domain.proofPicture.controller.response.RamenShopProofPictureResponse;
+import com.raota.global.auth.LoginMember;
 import com.raota.global.common.ApiResponse;
 import com.raota.domain.proofPicture.service.RamenProofPictureService;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +29,10 @@ public class RamenProofPictureController {
     @PostMapping("/{shopId}")
     public ResponseEntity<ApiResponse<ProofPictureInfoResponse>> addProofPicture(
             @PathVariable Long shopId,
-            @RequestPart("file") MultipartFile file
+            @RequestPart("file") MultipartFile file,
+            @LoginMember Long memberId
     ) {
-        ProofPictureInfoResponse response = proofPictureService.addProofPicture(shopId,file);
+        ProofPictureInfoResponse response = proofPictureService.addProofPicture(shopId,file,memberId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 

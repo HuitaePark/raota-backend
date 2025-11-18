@@ -59,7 +59,7 @@ class RamenProofPictureControllerTest {
         );
 
         ProofPictureInfoResponse response = new  ProofPictureInfoResponse(702L,"https://cdn.menschelin.com/images/user/photo/702.jpg","방금먹음",LocalDateTime.now());
-        given(service.addProofPicture(shopId,file)).willReturn(response);
+        given(service.addProofPicture(shopId,file,null)).willReturn(response);
 
         mockMvc.perform(multipart("/photos/{shopId}", shopId)
                 .file(file))
