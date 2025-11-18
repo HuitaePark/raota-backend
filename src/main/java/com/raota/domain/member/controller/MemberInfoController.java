@@ -50,13 +50,15 @@ public class MemberInfoController {
     public ResponseEntity<ApiResponse<Page<BookmarkSummaryResponse>>> getMyBookmarks(
             @LoginMember Long memberId,
             Pageable pageable) {
-        Page<BookmarkSummaryResponse> page = memberInfoService.getMyBookmarks(memberId,pageable);
+        Page<BookmarkSummaryResponse> page = memberInfoService.getMyBookmarks(memberId, pageable);
         return ResponseEntity.ok(ApiResponse.success(page));
     }
 
     @GetMapping("/me/visits")
-    public ResponseEntity<ApiResponse<Page<VisitSummaryResponse>>> getMyVisits(Pageable pageable) {
-        Page<VisitSummaryResponse> page = memberInfoService.getMyVisits(pageable);
+    public ResponseEntity<ApiResponse<Page<VisitSummaryResponse>>> getMyVisits(
+            @LoginMember Long memberId,
+            Pageable pageable) {
+        Page<VisitSummaryResponse> page = memberInfoService.getMyVisits(memberId,pageable);
         return ResponseEntity.ok(ApiResponse.success(page));
     }
 }

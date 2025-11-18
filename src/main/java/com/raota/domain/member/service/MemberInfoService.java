@@ -40,7 +40,7 @@ public class MemberInfoService {
         return memberRepository.findMyBookmarks(memberId,pageable);
     }
 
-    public Page<VisitSummaryResponse> getMyVisits(Pageable pageable) {
-        return null;
+    public Page<VisitSummaryResponse> getMyVisits(Long memberId,Pageable pageable) {
+        return memberRepository.findMyVisitRestaurant(memberId,pageable);
     }
 }

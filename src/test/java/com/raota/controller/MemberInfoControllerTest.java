@@ -218,7 +218,7 @@ public class MemberInfoControllerTest {
         var pageable = PageRequest.of(0, 20);
         var page = new PageImpl<>(list, pageable, 12);
 
-        given(memberInfoService.getMyVisits(pageable)).willReturn(page);
+        given(memberInfoService.getMyVisits(null,pageable)).willReturn(page);
 
         mockMvc.perform(get("/users/me/visits")
                         .param("page", "0")
