@@ -37,9 +37,13 @@ public class MemberProfile {
     @Embedded
     private MemberActivityStats memberActivityStats;
 
-    public void updateProfile(String nickname, String imageUrl){
+    public void updateProfile(String nickname, String imageUrl) {
+        if (nickname == null || nickname.isBlank()) {
+            throw new IllegalArgumentException("닉네임은 null 또는 빈 값일 수 없습니다.");
+        }
+
         this.nickname = nickname;
-        this.imageUrl =imageUrl;
+        this.imageUrl = imageUrl;
     }
 
     private void verifyNicknameBlank(String nickname) {
