@@ -1,10 +1,10 @@
 package com.raota.domain.member.service;
 
-import com.raota.domain.member.controller.request.UpdateProfileRequest;
 import com.raota.domain.member.controller.response.BookmarkSummaryResponse;
 import com.raota.domain.member.controller.response.MyProfileResponse;
 import com.raota.domain.member.controller.response.PhotoSummaryResponse;
 import com.raota.domain.member.controller.response.VisitSummaryResponse;
+import com.raota.domain.member.model.MemberProfile;
 import com.raota.domain.member.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,8 +21,13 @@ public class MemberInfoService {
         return memberRepository.findMemberDetailInfo(memberId);
     }
 
-    public MyProfileResponse updateMyProfile(UpdateProfileRequest request) {
-        return null;
+    public MyProfileResponse updateMyProfile(String updateNickname,String updateImage,Long memberId) {
+        MemberProfile member = memberRepository.findById(memberId).orElseThrow(()-> new IllegalArgumentException("없는 유저 정보 입니다."));
+
+        member.updateProfile(updateNickname,updateNickname);
+        memberRepository.save(member);
+
+        return getMyProfile(memberId);
     }
 
     public Page<PhotoSummaryResponse> getMyPhotoList(Pageable pageable){

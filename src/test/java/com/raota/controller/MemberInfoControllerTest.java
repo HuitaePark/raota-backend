@@ -98,7 +98,7 @@ public class MemberInfoControllerTest {
                 stats
         );
 
-        given(memberInfoService.updateMyProfile(any())).willReturn(updated);
+        given(memberInfoService.updateMyProfile(any(),any(),any())).willReturn(updated);
 
         mockMvc.perform(patch("/users/me/profile")
                         .contentType(MediaType.APPLICATION_JSON)

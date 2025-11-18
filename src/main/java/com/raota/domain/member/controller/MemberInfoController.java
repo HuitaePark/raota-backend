@@ -32,9 +32,11 @@ public class MemberInfoController {
 
     @PatchMapping("/me/profile")
     public ResponseEntity<ApiResponse<MyProfileResponse>> updateMyProfile(
-            @RequestBody UpdateProfileRequest request
+            @RequestBody UpdateProfileRequest request,
+            @LoginMember Long memberId
     ) {
-        MyProfileResponse updated = memberInfoService.updateMyProfile(request);
+        MyProfileResponse updated = memberInfoService.updateMyProfile(request.getNickname(),
+                request.getProfile_image_url(), memberId);
         return ResponseEntity.ok(ApiResponse.success(updated));
     }
 
