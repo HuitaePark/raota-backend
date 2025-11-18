@@ -17,8 +17,8 @@ public class MemberInfoService {
 
     private final MemberRepository memberRepository;
 
-    public MyProfileResponse getMyProfile() {
-        return null;
+    public MyProfileResponse getMyProfile(Long memberId) {
+        return memberRepository.findMemberDetailInfo(memberId);
     }
 
     public MyProfileResponse updateMyProfile(UpdateProfileRequest request) {

@@ -66,7 +66,7 @@ public class MemberInfoControllerTest {
                 stats
         );
 
-        given(memberInfoService.getMyProfile()).willReturn(response);
+        given(memberInfoService.getMyProfile(any())).willReturn(response);
 
         mockMvc.perform(get("/users/me/profile")
                         .accept(MediaType.APPLICATION_JSON))

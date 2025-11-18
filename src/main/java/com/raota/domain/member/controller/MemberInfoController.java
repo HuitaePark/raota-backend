@@ -6,6 +6,7 @@ import com.raota.domain.member.controller.response.MyProfileResponse;
 import com.raota.domain.member.controller.response.PhotoSummaryResponse;
 import com.raota.domain.member.controller.response.VisitSummaryResponse;
 import com.raota.domain.member.service.MemberInfoService;
+import com.raota.global.auth.LoginMember;
 import com.raota.global.common.ApiResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,8 +25,9 @@ public class MemberInfoController {
     private final MemberInfoService memberInfoService;
 
     @GetMapping("/me/profile")
-    public ResponseEntity<ApiResponse<MyProfileResponse>> getUserProfile(){
-        return ResponseEntity.ok(ApiResponse.success(memberInfoService.getMyProfile()));
+    public ResponseEntity<ApiResponse<MyProfileResponse>> getUserProfile(
+            @LoginMember Long memberId){
+        return ResponseEntity.ok(ApiResponse.success(memberInfoService.getMyProfile(memberId)));
     }
 
     @PatchMapping("/me/profile")
