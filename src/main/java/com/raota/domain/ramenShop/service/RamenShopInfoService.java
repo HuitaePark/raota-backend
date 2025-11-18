@@ -39,7 +39,7 @@ public class RamenShopInfoService {
         return RamenShopBasicInfoResponse.from(ramenShop);
     }
 
-    public Page<StoreSummaryResponse> getRamenShopList(RamenShopSearchRequest request, Pageable pageable) {
-        return ramenShopRepository.searchStores(request.getRegion(), request.getKeyword(), pageable);
+    public Page<StoreSummaryResponse> getRamenShopList(String region, String keyword, Pageable pageable) {
+        return ramenShopRepository.searchStores(region, keyword, pageable);
     }
 }

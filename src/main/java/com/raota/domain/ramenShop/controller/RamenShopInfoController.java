@@ -62,7 +62,7 @@ public class RamenShopInfoController {
     public ResponseEntity<ApiResponse<Page<StoreSummaryResponse>>> getShopDetailInfo(
             @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable,
             RamenShopSearchRequest request) {
-        Page<StoreSummaryResponse> response = ramenShopInfoService.getRamenShopList(request, pageable);
+        Page<StoreSummaryResponse> response = ramenShopInfoService.getRamenShopList(request.getRegion(),request.getKeyword(), pageable);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }
