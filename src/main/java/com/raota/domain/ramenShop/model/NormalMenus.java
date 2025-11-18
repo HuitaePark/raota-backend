@@ -7,6 +7,7 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +30,12 @@ public class NormalMenus {
     public void add(NormalMenu normalMenu){
         verifyMenuNameDuplicate(normalMenu.getName());
         values.add(normalMenu);
+    }
+
+    public Optional<NormalMenu> findMenuById(Long voteId){
+        return values.stream()
+                .filter(menu -> menu.getId().equals(voteId))
+                .findFirst();
     }
 
     private void verifyMenuNameDuplicate(String name){

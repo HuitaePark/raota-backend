@@ -1,5 +1,6 @@
 package com.raota.domain.ramenShop;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.raota.domain.ramenShop.model.EventMenu;
@@ -63,5 +64,34 @@ public class MenuTest {
         assertThatThrownBy(() -> eventMenus.add(menu2))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이미 존재하는 메뉴 이름입니다: 핑크 초코 라멘");
+    }
+
+    @DisplayName("입력받은 아이디로 메뉴를 찾는다.")
+    @Test
+    void find_menu__by_id() {
+        NormalMenu menu = NormalMenu.builder()
+                .id(1L)
+                .name("시오라멘")
+                .price(9000)
+                .isSignature(true)
+                .imageUrl("https://cdn.men.com/salt.jpg")
+                .build();
+
+        NormalMenu menu2 = NormalMenu.builder()
+                .id(2L)
+                .name("미소라멘")
+                .price(9000)
+                .isSignature(true)
+                .imageUrl("https://cdn.men.com/salt.jpg")
+                .build();
+        NormalMenus normalMenus = NormalMenus.init();
+        normalMenus.add(menu);
+        normalMenus.add(menu2);
+
+        NormalMenu normalMenu = normalMenus.findMenuById(1L).orElseThrow();
+
+        assertThat(normalMenu.getId()).isEqualTo(1L);
+        assertThat(normalMenu.getName()).isEqualTo("시오라멘");
+        assertThat(normalMenu.getPrice()).isEqualTo(9000);
     }
 }
