@@ -5,7 +5,9 @@ import static org.hamcrest.Matchers.equalTo;
 import com.raota.domain.member.model.MemberActivityStats;
 import com.raota.domain.member.model.MemberProfile;
 import com.raota.domain.member.repository.MemberRepository;
+import com.raota.domain.proofPicture.model.RamenProofPicture;
 import com.raota.domain.proofPicture.repository.RamenProofPictureRepository;
+import com.raota.domain.ramenShop.model.RamenShop;
 import com.raota.domain.ramenShop.repository.RamenShopRepository;
 import com.raota.global.file.FileUploader;
 import io.restassured.RestAssured;
@@ -64,9 +66,13 @@ public class MemberInfoIntegrationTest {
         MemberProfile savedMember = memberRepository.save(member);
         memberId = savedMember.getId();
     }
+
     private void clearDatabase() {
         memberRepository.deleteAll();
+        ramenShopRepository.deleteAll();
+        pictureRepository.deleteAll();
     }
+
     @DisplayName("통합: 유저의 프로필을 조회한다.")
     @Test
     void get_my_profile() {
@@ -107,5 +113,29 @@ public class MemberInfoIntegrationTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("data.nickname", equalTo(newNickname))
                 .body("data.profile_image_url",equalTo(newImage));
+    }
+
+    @DisplayName("통합: 멤버의 사진 목록을 조회한다.")
+    @Test
+    void get_member_photo_list(){
+        MemberProfile me = memberRepository.findById(memberId).get();
+        RamenShop shop = ramenShopRepository.save(RamenShop.builder().name("사진찍은라멘집").build());
+
+        pictureRepository.save(RamenProofPicture.builder()
+                .memberProfile(me)
+                .ramenShop(shop)
+                .imageUrl("https://photo1.com")
+                .build());
+
+        // When
+        RestAssured.given().log().all()
+                .param("page", 0)
+                .param("size", 10)
+                .when()
+                .get("/users/me/photos")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("data.totalElements", equalTo(1))
+                .body("data.content[0].restaurant_name", equalTo("사진찍은라멘집"));
     }
 }
