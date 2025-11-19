@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.equalTo;
 import com.raota.domain.member.model.MemberActivityStats;
 import com.raota.domain.member.model.MemberProfile;
 import com.raota.domain.member.repository.MemberRepository;
+import com.raota.domain.proofPicture.repository.RamenProofPictureRepository;
+import com.raota.domain.ramenShop.repository.RamenShopRepository;
 import com.raota.global.file.FileUploader;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -41,11 +43,16 @@ public class MemberInfoIntegrationTest {
 
     @Autowired
     MemberRepository memberRepository;
+    @Autowired
+    RamenShopRepository ramenShopRepository;
+    @Autowired
+    RamenProofPictureRepository pictureRepository;
 
     private Long memberId;
 
     @BeforeEach
     void setUp() {
+        clearDatabase();
         RestAssured.port = port;
 
         MemberProfile member = MemberProfile.builder()
@@ -57,13 +64,15 @@ public class MemberInfoIntegrationTest {
         MemberProfile savedMember = memberRepository.save(member);
         memberId = savedMember.getId();
     }
-
-    @DisplayName("유저의 프로필을 조회한다.")
+    private void clearDatabase() {
+        memberRepository.deleteAll();
+    }
+    @DisplayName("통합: 유저의 프로필을 조회한다.")
     @Test
     void get_my_profile() {
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .header("X-User-Id", 1)
+                .header("X-User-Id", memberId)
                 .when()
                 .get("/users/me/profile")
                 .then().log().all()
@@ -90,7 +99,7 @@ public class MemberInfoIntegrationTest {
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .header("X-User-Id", 1)
+                .header("X-User-Id", memberId)
                 .body(requestBody)
                 .when()
                 .patch("/users/me/profile")
