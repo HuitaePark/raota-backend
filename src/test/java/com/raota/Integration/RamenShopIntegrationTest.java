@@ -106,6 +106,34 @@ public class RamenShopIntegrationTest {
                 .body("data.event_menus[0].badge_text", equalTo("봄 한정"));
     }
 
+    @Test
+    @DisplayName("통합: 라멘 가게 리스트 조회 - 페이징과 내용이 DB와 일치해야 한다")
+    void get_ramen_shop_list_integration() {
+        RamenShop shop2 = RamenShop.builder()
+                .name("라멘스키 강남점")
+                .address(new Address("서울","강남구","논현동","123"))
+                .stats(ShopStats.init())
+                .build();
+        ramenShopRepository.save(shop2);
+
+        RestAssured.given().log().all()
+                .param("page", "0")
+                .param("size", "2")
+                .accept(ContentType.JSON)
+                .when()
+                .get("/ramen-shops")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("status", equalTo("SUCCESS"))
+
+                .body("data.content", hasSize(2))
+
+                .body("data.totalElements", equalTo(2))
+                .body("data.size", equalTo(2))
+                .body("data.number", equalTo(0))
+                .body("data.totalPages", equalTo(1));
+    }
+
 
     private RamenShop createRamenShop(String name, int initialVisitCount, int initialBookmarkCount) {
         Address address = Address.of("서울", "마포구", "동교로 100", "B1");
