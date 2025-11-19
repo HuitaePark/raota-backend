@@ -13,13 +13,11 @@ import com.raota.domain.proofPicture.repository.RamenProofPictureRepository;
 import com.raota.domain.ramenShop.model.Address;
 import com.raota.domain.ramenShop.model.RamenShop;
 import com.raota.domain.ramenShop.repository.RamenShopRepository;
-import com.raota.global.file.FileUploader;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,9 +41,6 @@ public class MemberInfoIntegrationTest {
     @Container
     @ServiceConnection
     static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0");
-
-    @Mock
-    FileUploader fileUploader;
 
     @Autowired MemberRepository memberRepository;
     @Autowired RamenShopRepository ramenShopRepository;
