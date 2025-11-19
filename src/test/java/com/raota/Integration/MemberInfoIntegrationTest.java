@@ -47,14 +47,10 @@ public class MemberInfoIntegrationTest {
     @Mock
     FileUploader fileUploader;
 
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    RamenShopRepository ramenShopRepository;
-    @Autowired
-    RamenProofPictureRepository pictureRepository;
-    @Autowired
-    BookmarkRepository bookmarkRepository;
+    @Autowired MemberRepository memberRepository;
+    @Autowired RamenShopRepository ramenShopRepository;
+    @Autowired RamenProofPictureRepository pictureRepository;
+    @Autowired BookmarkRepository bookmarkRepository;
 
     private Long memberId;
 
@@ -86,8 +82,10 @@ public class MemberInfoIntegrationTest {
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header("X-User-Id", memberId)
+
                 .when()
                 .get("/users/me/profile")
+
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("status", equalTo("SUCCESS"))
@@ -114,8 +112,10 @@ public class MemberInfoIntegrationTest {
                 .contentType(ContentType.JSON)
                 .header("X-User-Id", memberId)
                 .body(requestBody)
+
                 .when()
                 .patch("/users/me/profile")
+
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("data.nickname", equalTo(newNickname))
@@ -139,8 +139,10 @@ public class MemberInfoIntegrationTest {
                 .param("size", 10)
                 .contentType(ContentType.JSON)
                 .header("X-User-Id", memberId)
+
                 .when()
                 .get("/users/me/photos")
+
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("data.totalElements", equalTo(1))
@@ -177,8 +179,10 @@ public class MemberInfoIntegrationTest {
                 .param("size", 10)
                 .contentType(ContentType.JSON)
                 .header("X-User-Id", memberId)
+
                 .when()
                 .get("/users/me/visits")
+
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("data.totalElements", equalTo(2))
@@ -202,8 +206,10 @@ public class MemberInfoIntegrationTest {
                 .param("size", 10)
                 .contentType(ContentType.JSON)
                 .header("X-User-Id", memberId)
+
                 .when()
                 .get("/users/me/bookmarks")
+
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("data.totalElements", equalTo(2))

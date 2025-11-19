@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class LocalFileUploader implements FileUploader{
     @Override
     public String upload(MultipartFile file, String dirName) {
-        return "";
+        return "https://mock.cdn.com/uploaded/702.jpg";
     }
 
     @Override
