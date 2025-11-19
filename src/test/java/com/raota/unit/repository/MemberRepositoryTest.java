@@ -99,7 +99,7 @@ public class MemberRepositoryTest {
         VisitSummaryResponse first = result.getContent().getFirst();
 
         assertThat(first.visit_count_for_user()).isEqualTo(2);
-        assertThat(first.address_simple()).isEqualTo("서울 마포구");
+        assertThat(first.simple_address()).isEqualTo("서울 마포구");
     }
 
     @DisplayName("유저의 북마크한 레스토랑 목록을 불러온다.")

@@ -98,7 +98,7 @@ public class MemberInfoControllerTest {
                 stats
         );
 
-        given(memberInfoService.updateMyProfile(any(),any(),any())).willReturn(updated);
+        given(memberInfoService.updateMyProfile(any(), any(), any())).willReturn(updated);
 
         mockMvc.perform(patch("/users/me/profile")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -140,7 +140,7 @@ public class MemberInfoControllerTest {
         PageRequest pageable = PageRequest.of(0, 20);
         Page<PhotoSummaryResponse> page = new PageImpl<>(photos, pageable, 4);
 
-        given(memberInfoService.getMyPhotoList(null,pageable)).willReturn(page);
+        given(memberInfoService.getMyPhotoList(null, pageable)).willReturn(page);
 
         mockMvc.perform(get("/users/me/photos")
                         .param("page", "0")
@@ -179,7 +179,7 @@ public class MemberInfoControllerTest {
         var pageable = PageRequest.of(0, 20);
         var page = new PageImpl<>(list, pageable, 2);
 
-        given(memberInfoService.getMyBookmarks(null,pageable)).willReturn(page);
+        given(memberInfoService.getMyBookmarks(null, pageable)).willReturn(page);
 
         mockMvc.perform(get("/users/me/bookmarks")
                         .param("page", "0")
@@ -191,7 +191,8 @@ public class MemberInfoControllerTest {
                 // content 검증
                 .andExpect(jsonPath("$.data.content[0].restaurant_id").value(102))
                 .andExpect(jsonPath("$.data.content[0].restaurant_name").value("라멘 스타일 스타일"))
-                .andExpect(jsonPath("$.data.content[0].restaurant_image_url").value("https://cdn.menschelin.com/images/rest/102/main.jpg"))
+                .andExpect(jsonPath("$.data.content[0].restaurant_image_url").value(
+                        "https://cdn.menschelin.com/images/rest/102/main.jpg"))
                 .andExpect(jsonPath("$.data.content[0].address_simple").value("서울 시내"))
 
                 // 페이지 메타데이터
@@ -208,17 +209,17 @@ public class MemberInfoControllerTest {
     void get_my_visits() throws Exception {
         var list = List.of(
                 new VisitSummaryResponse(102L, "라멘 스타일 스타일",
-                        "https://cdn.menschelin.com/images/rest/102/main.jpg", "서울" ,"시내",
+                        "https://cdn.menschelin.com/images/rest/102/main.jpg", "서울 영등포구",
                         3, LocalDateTime.now()),
                 new VisitSummaryResponse(101L, "켄비멘리키",
-                        "https://cdn.menschelin.com/images/rest/101/main.jpg", "서울","마포구",
+                        "https://cdn.menschelin.com/images/rest/101/main.jpg", "서울 마포구",
                         1, LocalDateTime.now())
         );
 
         var pageable = PageRequest.of(0, 20);
         var page = new PageImpl<>(list, pageable, 12);
 
-        given(memberInfoService.getMyVisits(null,pageable)).willReturn(page);
+        given(memberInfoService.getMyVisits(null, pageable)).willReturn(page);
 
         mockMvc.perform(get("/users/me/visits")
                         .param("page", "0")
@@ -232,7 +233,7 @@ public class MemberInfoControllerTest {
                 .andExpect(jsonPath("$.data.content[0].restaurant_name").value("라멘 스타일 스타일"))
                 .andExpect(jsonPath("$.data.content[0].visit_count_for_user").value(3))
                 .andExpect(jsonPath("$.data.content[1].restaurant_id").value(101))
-                .andExpect(jsonPath("$.data.content[1].city").value("서울"))
+                .andExpect(jsonPath("$.data.content[1].city").value("서울 영등포구"))
 
                 // 페이지 메타데이터
                 .andExpect(jsonPath("$.data.size").value(20))

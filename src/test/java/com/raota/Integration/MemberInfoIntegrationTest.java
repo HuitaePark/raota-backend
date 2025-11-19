@@ -7,6 +7,7 @@ import com.raota.domain.member.model.MemberProfile;
 import com.raota.domain.member.repository.MemberRepository;
 import com.raota.domain.proofPicture.model.RamenProofPicture;
 import com.raota.domain.proofPicture.repository.RamenProofPictureRepository;
+import com.raota.domain.ramenShop.model.Address;
 import com.raota.domain.ramenShop.model.RamenShop;
 import com.raota.domain.ramenShop.repository.RamenShopRepository;
 import com.raota.global.file.FileUploader;
@@ -68,9 +69,9 @@ public class MemberInfoIntegrationTest {
     }
 
     private void clearDatabase() {
-        memberRepository.deleteAll();
-        ramenShopRepository.deleteAll();
         pictureRepository.deleteAll();
+        ramenShopRepository.deleteAll();
+        memberRepository.deleteAll();
     }
 
     @DisplayName("통합: 유저의 프로필을 조회한다.")
@@ -127,15 +128,55 @@ public class MemberInfoIntegrationTest {
                 .imageUrl("https://photo1.com")
                 .build());
 
-        // When
         RestAssured.given().log().all()
                 .param("page", 0)
                 .param("size", 10)
+                .contentType(ContentType.JSON)
+                .header("X-User-Id", memberId)
                 .when()
                 .get("/users/me/photos")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("data.totalElements", equalTo(1))
                 .body("data.content[0].restaurant_name", equalTo("사진찍은라멘집"));
+    }
+
+    @DisplayName("통합: 멤버의 방문한 레스토랑 목록을 조회한다.")
+    @Test
+    void get_member_visited_list(){
+        MemberProfile me = memberRepository.findById(memberId).get();
+        RamenShop shop = ramenShopRepository.save(RamenShop.builder()
+                .name("첫번째 방문 라멘집")
+                .address(new Address("서울","마포구","망원동","123"))
+                .build());
+        RamenShop shop2 = ramenShopRepository.save(RamenShop.builder()
+                .name("두번째 방문 라멘집")
+                .address(new Address("서울","마포구","합정동","123"))
+                .build());
+
+        pictureRepository.save(RamenProofPicture.builder()
+                .memberProfile(me)
+                .ramenShop(shop)
+                .imageUrl("https://photo1.com")
+                .build());
+
+        pictureRepository.save(RamenProofPicture.builder()
+                .memberProfile(me)
+                .ramenShop(shop2)
+                .imageUrl("https://photo2.com")
+                .build());
+
+        RestAssured.given().log().all()
+                .param("page", 0)
+                .param("size", 10)
+                .contentType(ContentType.JSON)
+                .header("X-User-Id", memberId)
+                .when()
+                .get("/users/me/visits")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("data.totalElements", equalTo(2))
+                .body("data.content[0].restaurant_name", equalTo("첫번째 방문 라멘집"))
+                .body("data.content[1].restaurant_name", equalTo("두번째 방문 라멘집"));
     }
 }

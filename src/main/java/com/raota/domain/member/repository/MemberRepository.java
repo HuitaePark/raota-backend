@@ -33,8 +33,7 @@ public interface MemberRepository extends JpaRepository<MemberProfile, Long> {
                 r.id,
                 r.name,
                 r.imageUrl,
-                r.address.city,
-                r.address.district,
+                CONCAT(CONCAT(r.address.city, ' '), r.address.district),
                 count(p.id),
                 max(p.uploadAt))
             from MemberProfile m

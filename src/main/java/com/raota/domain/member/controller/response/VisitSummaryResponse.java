@@ -6,12 +6,8 @@ public record VisitSummaryResponse(
         Long restaurant_id,
         String restaurant_name,
         String restaurant_image_url,
-        String city,
-        String district,
+        String simple_address,
         long visit_count_for_user,
         LocalDateTime last_visited_at
 ) {
-    public String address_simple() {
-        return city + " " + district;
-    }
 }
