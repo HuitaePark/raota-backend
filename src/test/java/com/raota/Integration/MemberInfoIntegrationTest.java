@@ -51,7 +51,7 @@ public class MemberInfoIntegrationTest {
         MemberProfile member = MemberProfile.builder()
                 .nickname("바키")
                 .stats(MemberActivityStats.init())
-                .imageUrl("http://original-image.com")
+                .imageUrl("https://original-image.com")
                 .build();
 
         MemberProfile savedMember = memberRepository.save(member);
@@ -71,7 +71,32 @@ public class MemberInfoIntegrationTest {
                 .body("status", equalTo("SUCCESS"))
                 .body("data.user_id",equalTo(memberId.intValue()))
                 .body("data.nickname",equalTo("바키"))
-                .body("data.profile_image_url",equalTo("http://original-image.com"))
+                .body("data.profile_image_url",equalTo("https://original-image.com"))
                 .body("data.stats.visited_restaurant_count",equalTo(0));
+    }
+
+    @Test
+    @DisplayName("통합: 내 프로필 수정 - API 호출 후 실제 DB 값이 변경되어야 한다")
+    void update_my_profile() {
+        String newNickname = "새로운유저";
+        String newImage = "https://new-image.com";
+
+        String requestBody = """
+            {
+              "nickname": "%s",
+              "profile_image_url": "%s"
+            }
+            """.formatted(newNickname, newImage);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header("X-User-Id", 1)
+                .body(requestBody)
+                .when()
+                .patch("/users/me/profile")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("data.nickname", equalTo(newNickname))
+                .body("data.profile_image_url",equalTo(newImage));
     }
 }

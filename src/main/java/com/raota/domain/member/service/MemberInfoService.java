@@ -26,7 +26,7 @@ public class MemberInfoService {
     public MyProfileResponse updateMyProfile(String updateNickname,String updateImage,Long memberId) {
         MemberProfile member = memberRepository.findById(memberId).orElseThrow(()-> new IllegalArgumentException("없는 유저 정보 입니다."));
 
-        member.updateProfile(updateNickname,updateNickname);
+        member.updateProfile(updateNickname,updateImage);
         memberRepository.save(member);
 
         return getMyProfile(memberId);

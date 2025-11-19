@@ -44,7 +44,7 @@ public class MemberInfoController {
     public ResponseEntity<ApiResponse<Page<PhotoSummaryResponse>>> getUserPhoto(
             @LoginMember Long memberId,
             Pageable pageable) {
-        Page<PhotoSummaryResponse> photos = memberInfoService.getMyPhotoList(memberId,pageable);
+        Page<PhotoSummaryResponse> photos = memberInfoService.getMyPhotoList(memberId, pageable);
         return ResponseEntity.ok(ApiResponse.success(photos));
     }
 
@@ -60,7 +60,7 @@ public class MemberInfoController {
     public ResponseEntity<ApiResponse<Page<VisitSummaryResponse>>> getMyVisits(
             @LoginMember Long memberId,
             Pageable pageable) {
-        Page<VisitSummaryResponse> page = memberInfoService.getMyVisits(memberId,pageable);
+        Page<VisitSummaryResponse> page = memberInfoService.getMyVisits(memberId, pageable);
         return ResponseEntity.ok(ApiResponse.success(page));
     }
 }
