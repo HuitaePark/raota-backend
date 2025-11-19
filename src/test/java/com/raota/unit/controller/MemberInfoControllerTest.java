@@ -233,7 +233,7 @@ public class MemberInfoControllerTest {
                 .andExpect(jsonPath("$.data.content[0].restaurant_name").value("라멘 스타일 스타일"))
                 .andExpect(jsonPath("$.data.content[0].visit_count_for_user").value(3))
                 .andExpect(jsonPath("$.data.content[1].restaurant_id").value(101))
-                .andExpect(jsonPath("$.data.content[1].city").value("서울 영등포구"))
+                .andExpect(jsonPath("$.data.content[1].simple_address").value("서울 마포구"))
 
                 // 페이지 메타데이터
                 .andExpect(jsonPath("$.data.size").value(20))

@@ -1,9 +1,12 @@
 package com.raota.Integration;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
 
+import com.raota.domain.member.model.Bookmark;
 import com.raota.domain.member.model.MemberActivityStats;
 import com.raota.domain.member.model.MemberProfile;
+import com.raota.domain.member.repository.BookmarkRepository;
 import com.raota.domain.member.repository.MemberRepository;
 import com.raota.domain.proofPicture.model.RamenProofPicture;
 import com.raota.domain.proofPicture.repository.RamenProofPictureRepository;
@@ -50,6 +53,8 @@ public class MemberInfoIntegrationTest {
     RamenShopRepository ramenShopRepository;
     @Autowired
     RamenProofPictureRepository pictureRepository;
+    @Autowired
+    BookmarkRepository bookmarkRepository;
 
     private Long memberId;
 
@@ -69,6 +74,7 @@ public class MemberInfoIntegrationTest {
     }
 
     private void clearDatabase() {
+        bookmarkRepository.deleteAll();
         pictureRepository.deleteAll();
         ramenShopRepository.deleteAll();
         memberRepository.deleteAll();
@@ -178,5 +184,29 @@ public class MemberInfoIntegrationTest {
                 .body("data.totalElements", equalTo(2))
                 .body("data.content[0].restaurant_name", equalTo("첫번째 방문 라멘집"))
                 .body("data.content[1].restaurant_name", equalTo("두번째 방문 라멘집"));
+    }
+
+    @Test
+    @DisplayName("통합: 내 북마크 목록 조회 - 저장된 2개의 가게가 조회되어야 한다")
+    void get_my_bookmarks() {
+        MemberProfile me = memberRepository.findById(memberId).get();
+
+        RamenShop shop1 = ramenShopRepository.save(RamenShop.builder().name("라멘집1").build());
+        RamenShop shop2 = ramenShopRepository.save(RamenShop.builder().name("라멘집2").build());
+
+        bookmarkRepository.save(Bookmark.builder().memberProfile(me).ramenShop(shop1).build());
+        bookmarkRepository.save(Bookmark.builder().memberProfile(me).ramenShop(shop2).build());
+
+        RestAssured.given().log().all()
+                .param("page", 0)
+                .param("size", 10)
+                .contentType(ContentType.JSON)
+                .header("X-User-Id", memberId)
+                .when()
+                .get("/users/me/bookmarks")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("data.totalElements", equalTo(2))
+                .body("data.content.restaurant_name", hasItems("라멘집1", "라멘집2"));
     }
 }
