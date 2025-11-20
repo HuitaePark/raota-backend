@@ -134,7 +134,7 @@ public class VoteIntegrationTest {
                 .contentType(ContentType.JSON)
                 .pathParam("shopId", targetShopId)
                 .pathParam("menuId", signatureMenu.getId())
-
+                .header("X-User-Id", memberId)
                 .when()
                 .post("/votes/{shopId}/menus/{menuId}", targetShopId, signatureMenu.getId())
 
@@ -161,6 +161,7 @@ public class VoteIntegrationTest {
     }
 
     private void clearDatabase() {
+        voteRepository.deleteAllInBatch();
         ramenShopRepository.deleteAll();
         memberRepository.deleteAll();
     }
