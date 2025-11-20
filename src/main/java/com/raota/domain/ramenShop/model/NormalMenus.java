@@ -32,9 +32,9 @@ public class NormalMenus {
         values.add(normalMenu);
     }
 
-    public Optional<NormalMenu> findMenuById(Long voteId){
+    public Optional<NormalMenu> findMenuById(Long menuId){
         return values.stream()
-                .filter(menu -> menu.getId().equals(voteId))
+                .filter(menu -> menu.getId().equals(menuId))
                 .findFirst();
     }
 
