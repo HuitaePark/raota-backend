@@ -115,6 +115,51 @@ public class VoteIntegrationTest {
                 .body("data.vote_results.find { it.menu_id == " + thirdMenu.getId() + " }.percentage", is(0.0f));
     }
 
+    @Test
+    @DisplayName("통합 : 투표 API 호출 후 메뉴 투표 현황의 득표수와 퍼센트가 갱신되어 반환된다")
+    void voteMenuAndRetrieveUpdatedStatus() {
+        MemberProfile voter1 = createAndSaveMember("유권자1");
+        MemberProfile voter2 = createAndSaveMember("유권자2");
+
+        // 시그니처 메뉴 3표
+        saveVote(signatureMenu, voter1);
+        saveVote(signatureMenu, voter2);
+        saveVote(signatureMenu, memberRepository.findById(memberId).orElseThrow());
+
+        // 쇼유 메뉴 2표
+        saveVote(limitedMenu, voter1);
+        saveVote(limitedMenu, voter2);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .pathParam("shopId", targetShopId)
+                .pathParam("menuId", signatureMenu.getId())
+
+                .when()
+                .post("/votes/{shopId}/menus/{menuId}", targetShopId, signatureMenu.getId())
+
+                .then().log().all()
+                .statusCode(200)
+                .body("status", equalTo("SUCCESS"))
+
+                .body("data.total_votes", equalTo(6))
+
+                .body("data.vote_results.find { it.menu_id == " + signatureMenu.getId() + " }.vote_count",
+                        equalTo(4))
+                .body("data.vote_results.find { it.menu_id == " + signatureMenu.getId() + " }.percentage",
+                        is(equalTo(66.67f)))
+
+                .body("data.vote_results.find { it.menu_id == " + limitedMenu.getId() + " }.vote_count",
+                        equalTo(2))
+                .body("data.vote_results.find { it.menu_id == " + limitedMenu.getId() + " }.percentage",
+                        is(equalTo(33.33f)))
+
+                .body("data.vote_results.find { it.menu_id == " + thirdMenu.getId() + " }.vote_count",
+                        equalTo(0))
+                .body("data.vote_results.find { it.menu_id == " + thirdMenu.getId() + " }.percentage",
+                        is(equalTo(0f)));
+    }
+
     private void clearDatabase() {
         ramenShopRepository.deleteAll();
         memberRepository.deleteAll();

@@ -66,6 +66,7 @@ public class MenuVoteService {
             return 0.0;
         }
 
-        return dto.getVote_count()*100.0/totalCount;
+        double percentage = dto.getVote_count()*100.0/totalCount;
+        return Math.round(percentage * 100.0) / 100.0;
     }
 }
