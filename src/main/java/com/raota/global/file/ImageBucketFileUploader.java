@@ -3,11 +3,11 @@ package com.raota.global.file;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.multipart.MultipartFile;
 
-@Profile("bucket")
+@Profile("prod")
 public class ImageBucketFileUploader implements FileUploader{
     @Override
     public String upload(MultipartFile file, String dirName) {
-        return "";
+        return "https://mock.cdn.com/uploaded/702.jpg";
     }
 
     @Override
