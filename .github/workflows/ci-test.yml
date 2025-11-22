@@ -63,12 +63,6 @@ jobs:
           mkdir -p /home/heetaepark/raota
           cp build/libs/*SNAPSHOT.jar /home/heetaepark/raota/app.jar
 
-      - name: Restart application on test server (local self-hosted runner)
-        run: |
-          cd /home/heetaepark/raota
-          chmod +x run-test-server.sh
-          ./run-test-server.sh
-
   e2e_test:
     runs-on: self-hosted
     needs: deploy_test
@@ -76,6 +70,28 @@ jobs:
     environment: raota-test-server
 
     steps:
+      - name: Start test server
+        run: |
+          cd /home/heetaepark/raota
+          chmod +x run-test-server.sh
+          ./run-test-server.sh
+
+      - name: Wait for app to be healthy
+        run: |
+          echo "[health-check] waiting for http://localhost:8080 ..."
+          for i in {1..30}; do
+            if curl -sSf http://localhost:8080/actuator/health > /dev/null 2>&1; then
+              echo "[health-check] app is UP"
+              exit 0
+            fi
+            echo "[health-check] not up yet, retry $i/30 ..."
+            sleep 2
+          done
+          echo "[health-check] app failed to start in time"
+          echo "===== last 100 lines of app.log ====="
+          tail -n 100 /home/heetaepark/raota/app.log || true
+          exit 1
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
