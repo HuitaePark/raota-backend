@@ -1,4 +1,3 @@
-package com.raota.E2E;
 
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;

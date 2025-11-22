@@ -1,4 +1,3 @@
-package com.raota.E2E;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;

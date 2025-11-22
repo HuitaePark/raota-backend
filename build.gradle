@@ -49,3 +49,24 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+//test 소스셋에 E2E 폴더 추가
+sourceSets {
+    test {
+        java.srcDir 'src/E2E/java'
+        resources.srcDir 'src/E2E/resources'
+    }
+}
+
+//E2E 전용 Test task
+tasks.register('E2ETest', Test) {
+    description = "Run E2E tests"
+    group = "verification"
+
+    useJUnitPlatform()
+
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+
+    include '**/*E2E*Test.class'
+}
