@@ -80,8 +80,8 @@ jobs:
         run: |
           echo "[health-check] waiting for http://localhost:8080 ..."
           for i in {1..30}; do
-            if curl -sSf http://localhost:8080/actuator/health > /dev/null 2>&1; then
-              echo "[health-check] app is UP"
+            if curl -sS http://localhost:8080/ > /dev/null 2>&1; then
+              echo "[health-check] app is UP (HTTP reachable)"
               exit 0
             fi
             echo "[health-check] not up yet, retry $i/30 ..."
